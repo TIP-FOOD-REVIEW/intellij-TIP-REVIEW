@@ -1,18 +1,33 @@
-package model;
+package model.Entitiy;
 
 public class Store {
     private Long storeId;
     private String name;
     private String address;
     private String phone;
-    private Byte[] imageUrl;
+    private String description;
+    private String location;
+    private byte[] image;
+    private Long rating;
 
-    public Byte[] getImageUrl() {
-        return imageUrl;
+    public Long getRating() {return rating;}
+
+    public void setRating(Long rating) {this.rating = rating;}
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
+
+    public String getLocation() {return location;}
+
+    public void setLocation(String location) {this.location = location;}
+
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImageUrl(Byte[] imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public Long getStoreId() {

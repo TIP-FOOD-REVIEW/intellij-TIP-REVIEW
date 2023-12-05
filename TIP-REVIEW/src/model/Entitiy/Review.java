@@ -1,4 +1,4 @@
-package model;
+package model.Entitiy;
 
 
 import java.sql.Timestamp;
@@ -9,7 +9,7 @@ public class Review {
     private Long storeId;
     private String content;
     private Integer rating;
-    private Byte[] imageUrl;
+    private byte[] imageUrl;
 
     public Long getReviewId() {
         return reviewId;
@@ -51,11 +51,11 @@ public class Review {
         this.rating = rating;
     }
 
-    public Byte[] getImageUrl() {
+    public byte[] getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(Byte[] imageUrl) {
+    public void setImageUrl(byte[] imageUrl) {
         this.imageUrl = imageUrl;
     }
 

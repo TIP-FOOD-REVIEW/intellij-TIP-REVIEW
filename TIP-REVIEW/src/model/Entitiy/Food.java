@@ -1,15 +1,17 @@
-package model;
+package model.Entitiy;
 
 public class Food {
     private Long foodId;
     private String name;
-    private Byte[] imageUrl;
+    private Long storeId;
+    private byte[] imageUrl;
+    private Long price;
 
-    public Byte[] getImageUrl() {
+    public byte[] getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(Byte[] imageUrl) {
+    public void setImageUrl(byte[] imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -45,6 +47,4 @@ public class Food {
         this.price = price;
     }
 
-    private Long storeId;
-    private Long price;
 }
