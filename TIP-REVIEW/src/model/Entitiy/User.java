@@ -1,10 +1,11 @@
-package model;
+package model.Entitiy;
 
 public class User {
     private Long userId;
     private String username;
     private String password;
     private String email;
+    private String phone;
 
     public Long getUserId() {
         return userId;
@@ -46,5 +47,4 @@ public class User {
         this.phone = phone;
     }
 
-    private String phone;
 }
