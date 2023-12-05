@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="TIP-REVIEW:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/TIP_REVIEW_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="TIP-REVIEW/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="TIP-REVIEW" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
