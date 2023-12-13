@@ -80,7 +80,8 @@
                         Store store = storeList[i];
             %>
             <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <a href="?action=getStore&storeId=<%= store.getStoreId() %>" class="text-decoration-none">[<%= (i + 1) %>] <%= store.getStoreName() %> <%= store.getRating() %> <%= store.getReviewCount() %></a>
+                <a href="?action=getStore&storeId=<%= store.getStoreId() %>" class="text-decoration-none">
+                    [<%= (i + 1) %>] <%= store.getStoreName() %> <%= store.getRating() %> <%= store.getReviewCount() %></a>
             </li>
             <%
                     }

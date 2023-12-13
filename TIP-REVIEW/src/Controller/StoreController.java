@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = "/StoreController")
+@WebServlet(urlPatterns = "/")
 public class StoreController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private StoreDAO storeDAO;
