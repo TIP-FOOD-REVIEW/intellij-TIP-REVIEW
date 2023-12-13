@@ -15,6 +15,7 @@ public class UserDAO {
         this.dbConnection = dbConnection;
     }
 
+
     //addUser
     public void addUser(User user) throws SQLException {
         Connection conn = dbConnection.getConnection();
