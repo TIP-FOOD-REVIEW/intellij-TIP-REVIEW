@@ -8,11 +8,20 @@ public class Store {
     private String description;
     private String location;
     private byte[] image;
-    private Long rating;
+    private Double rating;
+    private Long ReviewCount;
 
-    public Long getRating() {return rating;}
+    public Long getReviewCount() {
+        return ReviewCount;
+    }
 
-    public void setRating(Long rating) {this.rating = rating;}
+    public void setReviewCount(Long reviewCount) {
+        ReviewCount = reviewCount;
+    }
+
+    public Double getRating() {return rating;}
+
+    public void setRating(Double rating) {this.rating = rating;}
 
     public String getDescription() {return description;}
 

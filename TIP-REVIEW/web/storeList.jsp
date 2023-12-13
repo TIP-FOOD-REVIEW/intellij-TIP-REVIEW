@@ -1,5 +1,6 @@
+<%@ page import="model.Entitiy.Store" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,19 +73,30 @@
         </div>
         <hr>
         <ul id="storeListUl" class="list-group">
-            <c:forEach var="store" items="${storeList}" varStatus="status">
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <a href="?action=getStore&storeId=${store.storeId}" class="text-decoration-none">[${status.count}] ${store.name} ${store.rating} ${store.cntReview}</a>
-                </li>
-            </c:forEach>
+            <%
+                List<Store> storeList = (List<Store>) request.getAttribute("storeList");
+                if(storeList != null) {
+                    for(int i = 0; i < storeList.size(); i++) {
+                        Store store = storeList.get(i);
+            %>
+            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <a href="?action=getStore&storeId=<%= store.getStoreId() %>" class="text-decoration-none">[<%= (i + 1) %>] <%= store.getName() %> <%= store.getRating() %> <%= store.getReviewCount() %></a>
+            </li>
+            <%
+                    }
+                }
+            %>
         </ul>
         <hr>
-        <c:if test="${error != null}">
-            <div class="alert alert-danger alert-dismissible fade show mt-3">
-                에러 발생: ${error}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        </c:if>
+        <%
+            String error = (String) request.getAttribute("error");
+            if(error != null && !error.isEmpty()) {
+        %>
+        <div class="alert alert-danger alert-dismissible fade show mt-3">
+            에러 발생: <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
     </div>
 </body>
 </html>

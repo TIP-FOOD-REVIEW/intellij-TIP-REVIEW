@@ -34,7 +34,7 @@ public class StoreDAO {
                 store.setImage(rs.getBytes("image"));
                 store.setDescription(rs.getString("description"));
                 store.setLocation(rs.getString("location"));
-                store.setRating(rs.getLong("rating"));
+                store.setRating(rs.getDouble("rating"));
             }
             pstmt.executeQuery();
             return store;
@@ -59,7 +59,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
-                store.setRating(rs.getLong("rating"));
+                store.setRating(rs.getDouble("rating"));
                 storeList[i] = store;
                 i++;
             }
@@ -86,7 +86,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
-                store.setRating(rs.getLong("rating"));
+                store.setRating(rs.getDouble("rating"));
                 storeList[i] = store;
                 i++;
             }
@@ -113,7 +113,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
-                store.setRating(rs.getLong("rating"));
+                store.setRating(rs.getDouble("rating"));
                 storeList[i] = store;
                 i++;
             }
@@ -141,7 +141,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
-                store.setRating(rs.getLong("rating"));
+                store.setRating(rs.getDouble("rating"));
                 storeList[i] = store;
                 i++;
             }
