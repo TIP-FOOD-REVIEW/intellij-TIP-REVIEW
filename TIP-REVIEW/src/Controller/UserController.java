@@ -27,10 +27,17 @@ public class UserController extends HttpServlet {
             updateUser(request, response);
         } else if ("login".equals(action)) {
             login(request, response);
-        } else if ("getUser".equals(action)) {
-            getUser(request, response);
+            //getUser가 마이페이지로 이동하는 느낌
         }
         // 다른 액션들에 대한 처리도 추가 가능
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if("getUser".equals(action)) {
+            getUser(request, response);
+        }
     }
 
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -139,6 +146,10 @@ public class UserController extends HttpServlet {
 
         try {
             Users user = userBean.getUserDAO().getUser(userId);
+            //이렇게 객체 보내는게 되나??
+            request.setAttribute("user", user);
+
+
             String resultMessage = "User retrieved successfully. User: " + user.getUsername();
             request.setAttribute("resultMessage", resultMessage);
         } catch (Exception e) {
@@ -147,6 +158,6 @@ public class UserController extends HttpServlet {
             request.setAttribute("resultMessage", resultMessage);
         }
 
-        request.getRequestDispatcher("/result.jsp").forward(request, response);
+        request.getRequestDispatcher("User/myPage.jsp").forward(request, response);
     }
 }
