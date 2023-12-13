@@ -89,17 +89,18 @@ public class ReviewDAO {
     }
 
     //ListByRatingDesc (내림차순)
-    public Review[] listByRating() throws SQLException {
+    public Review[] listByRating(Long storeId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM REVIEW ORDER BY RATING DESC";
+        String sql = "SELECT * FROM REVIEW WHERE STORE_ID = ? ORDER BY RATING DESC";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
+        pstmt.setLong(1, storeId);
         ResultSet rs = pstmt.executeQuery();
 
         Review[] reviewList = new Review[100];
         int i = 0;
-        try (conn; pstmt; rs) {
-            while (rs.next()) {
+        try(conn; pstmt; rs) {
+            while(rs.next()) {
                 Review review = new Review();
                 review.setReviewId(rs.getLong("reviewId"));
                 review.setUserId(rs.getLong("userId"));
@@ -116,17 +117,18 @@ public class ReviewDAO {
     }
 
     //ListByRatingAsc (오름차순)
-    public Review[] listByRatingAsc() throws SQLException {
+    public Review[] listByRatingAsc(Long storeId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM REVIEW ORDER BY RATING ASC";
+        String sql = "SELECT * FROM REVIEW WHERE STORE_ID = ? ORDER BY RATING ASC";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
+        pstmt.setLong(1, storeId);
         ResultSet rs = pstmt.executeQuery();
 
         Review[] reviewList = new Review[100];
         int i = 0;
-        try (conn; pstmt; rs) {
-            while (rs.next()) {
+        try(conn; pstmt; rs) {
+            while(rs.next()) {
                 Review review = new Review();
                 review.setReviewId(rs.getLong("reviewId"));
                 review.setUserId(rs.getLong("userId"));
