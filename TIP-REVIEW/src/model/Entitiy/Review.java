@@ -9,7 +9,7 @@ public class Review {
     private Long storeId;
     private String content;
     private Integer rating;
-    private byte[] image;
+    private String image;
 
     public Long getReviewId() {
         return reviewId;
@@ -52,10 +52,10 @@ public class Review {
     }
 
     public byte[] getImage() {
-        return image;
+        return image.getBytes();
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
