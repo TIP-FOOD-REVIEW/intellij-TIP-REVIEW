@@ -39,8 +39,9 @@ public class UserDAO {
         try(conn; pstmt) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
-            pstmt.executeQuery();
-            return pstmt.getResultSet().getLong("userId");
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return pstmt.getResultSet().getLong("USER_ID");
         }
     }
 

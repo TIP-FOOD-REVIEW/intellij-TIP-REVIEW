@@ -32,7 +32,7 @@
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center">
                             <form class="container" method="post" action="/userController?action=addUser">
-                                <a href="/" class="logo">
+                                <a href="/storeList.jsp" class="logo">
                                     <h1 class="blind">회원가입</h1>
                                 </a>
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4"></p>
@@ -69,20 +69,16 @@
                                 <div class="row mb-4">
                                     <div class="col d-flex justify-content-center">
                                         <!-- Checkbox -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="true" id="form2Example31" checked name="rememberCustomer"/>
-                                            <label class="form-check-label" for="form2Example31"> 이 계정 기억하기 </label>
-                                        </div>
+
                                     </div>
                                 </div>
 
                                 <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>
+                                <button type="submit" class="btn btn-primary btn-block mb-4">회원가입</button>
+                                <a href="/storeList.jsp" class="btn btn-secondary btn-block">메인으로</a>
 
-                                <!-- Register buttons -->
-                                <div class="text-center">
-                                    <p>계정이 없으십니까? <a href="/register">회원가입</a></p>
-                                </div>
+
+
                             </form>
 
                         </div>

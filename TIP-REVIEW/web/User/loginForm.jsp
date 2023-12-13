@@ -32,8 +32,8 @@
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center">
                             <form class="container" action="/userController?action=login" method="post">
-                                <a href="/" class="logo">
-                                    <h1 class="blind">ShoppingMall</h1>
+                                <a href="/storeList.jsp" class="logo">
+                                    <h1 class="blind">Tip-Review</h1>
                                 </a>
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4"></p>
                                 <!-- Email input -->
@@ -48,23 +48,12 @@
                                     <label class="form-label" for="form2Example2">비밀번호</label>
                                 </div>
 
-                                <!-- 2 column grid layout for inline styling -->
-                                <div class="row mb-4">
-                                    <div class="col d-flex justify-content-center">
-                                        <!-- Checkbox -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="true" id="form2Example31" checked name="rememberCustomer"/>
-                                            <label class="form-check-label" for="form2Example31"> 이 계정 기억하기 </label>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>
 
                                 <!-- Register buttons -->
                                 <div class="text-center">
-                                    <p>계정이 없으십니까? <a href="/register">회원가입</a></p>
+                                    <p>계정이 없으십니까? <a href="/User/signUpForm.jsp">회원가입</a></p>
                                 </div>
                             </form>
 
