@@ -31,20 +31,20 @@
                 <div class="p-4" style="border-radius: 25px; width: 600px; background-color: white">
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center">
-                            <form class="container" action="/login" method="post">
+                            <form class="container" action="/userController?action=login" method="post">
                                 <a href="/" class="logo">
                                     <h1 class="blind">ShoppingMall</h1>
                                 </a>
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4"></p>
                                 <!-- Email input -->
                                 <div class="form-outline mb-4">
-                                    <input type="email" id="form2Example1" class="form-control" name="email"/>
-                                    <label class="form-label" for="form2Example1">이메일</label>
+                                    <input type="text" id="form2Example1" name="username" class="form-control" name="email"/>
+                                    <label class="form-label" for="form2Example1">아이디</label>
                                 </div>
 
                                 <!-- Password input -->
                                 <div class="form-outline mb-4">
-                                    <input type="password" id="form2Example2" class="form-control" name="password"/>
+                                    <input type="text" id="form2Example2" name = "password" class="form-control" name="password"/>
                                     <label class="form-label" for="form2Example2">비밀번호</label>
                                 </div>
 
