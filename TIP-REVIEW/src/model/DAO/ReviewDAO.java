@@ -79,7 +79,11 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
+<<<<<<< HEAD
                 review.setImage(rs.getString("imageurl"));
+=======
+                review.setImage(rs.getString("image"));
+>>>>>>> 4b9032b96d08c7cd85b0f063482a136ca984d42f
                 reviewList.add(review);
             }
         }
@@ -105,7 +109,11 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
+<<<<<<< HEAD
                 review.setImage(rs.getString("imageurl"));
+=======
+                review.setImage(rs.getString("image"));
+>>>>>>> 4b9032b96d08c7cd85b0f063482a136ca984d42f
                 reviewList.add(review);
             }
         }
@@ -130,7 +138,11 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
+<<<<<<< HEAD
                 review.setImage(rs.getString("imageurl"));
+=======
+                review.setImage(rs.getString("image"));
+>>>>>>> 4b9032b96d08c7cd85b0f063482a136ca984d42f
                 reviewList.add(review);
             }
         }
@@ -155,7 +167,11 @@ public class ReviewDAO {
                     review.setStoreId(rs.getLong("storeId"));
                     review.setContent(rs.getString("content"));
                     review.setRating((int) rs.getLong("rating"));
+<<<<<<< HEAD
                     review.setImage(rs.getString("imageurl"));
+=======
+                    review.setImage(rs.getString("image"));
+>>>>>>> 4b9032b96d08c7cd85b0f063482a136ca984d42f
                     reviewList.add(review);
                 }
             }
