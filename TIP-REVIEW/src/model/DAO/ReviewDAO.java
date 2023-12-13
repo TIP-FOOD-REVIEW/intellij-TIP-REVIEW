@@ -79,7 +79,7 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImage(rs.getBytes("image"));
+                review.setImage(rs.getString("image"));
                 reviewList.add(review);
             }
         }
@@ -105,7 +105,7 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImage(rs.getBytes("image"));
+                review.setImage(rs.getString("image"));
                 reviewList.add(review);
             }
         }
@@ -130,7 +130,7 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImage(rs.getBytes("image"));
+                review.setImage(rs.getString("image"));
                 reviewList.add(review);
             }
         }
@@ -155,7 +155,7 @@ public class ReviewDAO {
                     review.setStoreId(rs.getLong("storeId"));
                     review.setContent(rs.getString("content"));
                     review.setRating((int) rs.getLong("rating"));
-                    review.setImage(rs.getBytes("image"));
+                    review.setImage(rs.getString("image"));
                     reviewList.add(review);
                 }
             }
