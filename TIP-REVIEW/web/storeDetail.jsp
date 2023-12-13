@@ -58,33 +58,6 @@
         <%= store.getDescription() %>
     </div>
 
-    <!-- Popular Menu -->
-    <div class="mt-8">
-        <h2 class="text-xl font-semibold mb-4">인기 메뉴</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="bg-red-100 p-4 rounded-lg">
-                <img
-                        src="https://source.unsplash.com/featured/?burger"
-                        alt="Burger"
-                        class="h-32 mx-auto"
-                />
-                <button class="mt-4 bg-red-500 text-white w-full py-2 rounded-lg">
-                    주문하기
-                </button>
-            </div>
-            <div class="bg-green-100 p-4 rounded-lg">
-                <img
-                        src="https://source.unsplash.com/featured/?pizza"
-                        alt="Pizza"
-                        class="h-32 mx-auto"
-                />
-                <button class="mt-4 bg-green-500 text-white w-full py-2 rounded-lg">
-                    피자
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- New Menu -->
     <div class="mt-8">
         <h2 class="text-xl font-semibold mb-4">신규 메뉴</h2>
