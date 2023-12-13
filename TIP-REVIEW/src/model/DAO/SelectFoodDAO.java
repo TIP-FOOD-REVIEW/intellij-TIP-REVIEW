@@ -44,7 +44,7 @@ public class SelectFoodDAO {
     //ListByStoreIdAndFoodId (return reviewId)
     public Long[] listByStoreIdAndFoodId(Long storeId, Long foodId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM SELECTFOOD WHERE STORE_ID = ? AND FOOD_ID = ?";
+        String sql = "SELECT * FROM SELECTFOOD WHERE STOREID = ? AND FOODID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         pstmt.setLong(1, storeId);

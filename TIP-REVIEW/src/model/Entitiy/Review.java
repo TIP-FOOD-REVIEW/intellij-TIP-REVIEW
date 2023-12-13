@@ -51,8 +51,10 @@ public class Review {
         this.rating = rating;
     }
 
-    public byte[] getImage() {
-        return image.getBytes();
+
+    public String getImage() {
+        return image;
+
     }
 
     public void setImage(String image) {

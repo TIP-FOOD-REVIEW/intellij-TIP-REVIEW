@@ -34,7 +34,6 @@ public class DatabaseInitServlet extends HttpServlet {
                     "phone VARCHAR(255) NOT NULL, " +
                     "description VARCHAR(255) NOT NULL, " +
                     "location VARCHAR(255) NOT NULL, " +
-                    "image BLOB NOT NULL, " +
                     "rating DOUBLE NOT NULL, " +
                     "ReviewCount BIGINT NOT NULL " +
                     ")");
@@ -44,7 +43,7 @@ public class DatabaseInitServlet extends HttpServlet {
                     "storeId BIGINT NOT NULL, " +
                     "content VARCHAR(255) NOT NULL, " +
                     "rating DOUBLE NOT NULL, " +
-                    "image BLOB NOT NULL " +
+                    "imageurl VARCHAR(255) NOT NULL " +
                     ")");
             stmt.execute("CREATE TABLE IF NOT EXISTS SelectFood (" +
                     "selectFoodId BIGINT PRIMARY KEY AUTO_INCREMENT, " +
@@ -56,8 +55,7 @@ public class DatabaseInitServlet extends HttpServlet {
                     "foodId BIGINT PRIMARY KEY AUTO_INCREMENT, " +
                     "foodName VARCHAR(255) NOT NULL, " +
                     "storeId BIGINT NOT NULL, " +
-                    "price DOUBLE NOT NULL, " +
-                    "image BLOB NOT NULL " +
+                    "price DOUBLE NOT NULL " +
                     ")");
         } catch (SQLException e) {
             throw new RuntimeException(e);

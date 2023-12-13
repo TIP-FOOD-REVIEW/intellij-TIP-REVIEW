@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class FoodDAO {
     final private DBConnection dbConnection;
@@ -18,21 +19,16 @@ public class FoodDAO {
     //getFood (by foodId)
     public Food getFood(Long foodId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM FOOD WHERE FOOD_ID = ?";
+        String sql = "SELECT * FROM FOOD WHERE FOODID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
-
         pstmt.setLong(1, foodId);
+
         ResultSet rs = pstmt.executeQuery();
+        rs.next();
 
         Food food = new Food();
         try(conn; pstmt; rs) {
-            while(rs.next()) {
-                food.setFoodId(rs.getLong("foodId"));
-                food.setFoodName(rs.getString("name"));
-                food.setImage(rs.getBytes("storeId"));
-                food.setStoreId(rs.getLong("imageUrl"));
-                food.setPrice(rs.getLong("price"));
-            }
+            food.setFoodName(rs.getString("foodName"));
             pstmt.executeQuery();
             return food;
         }
@@ -41,27 +37,23 @@ public class FoodDAO {
     //getFoodList (by storeId)
     public Food[] getFoodList(Long storeId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM FOOD WHERE STORE_ID = ?";
+        String sql = "SELECT * FROM FOOD WHERE STOREID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         pstmt.setLong(1, storeId);
         ResultSet rs = pstmt.executeQuery();
 
-        Food[] foodList = new Food[100];
-        int i = 0;
+        ArrayList<Food> foodList = new ArrayList<>();
         try(conn; pstmt; rs) {
             while(rs.next()) {
                 Food food = new Food();
                 food.setFoodId(rs.getLong("foodId"));
-                food.setFoodName(rs.getString("name"));
-                food.setImage(rs.getBytes("storeId"));
-                food.setStoreId(rs.getLong("imageUrl"));
+                food.setFoodName(rs.getString("foodName"));
                 food.setPrice(rs.getLong("price"));
-                foodList[i] = food;
-                i++;
+                foodList.add(food);
             }
             pstmt.executeQuery();
-            return foodList;
+            return foodList.toArray(new Food[0]);
         }
     }
 
@@ -74,21 +66,17 @@ public class FoodDAO {
         pstmt.setString(1, "%" + name + "%");
         ResultSet rs = pstmt.executeQuery();
 
-        Food[] foodList = new Food[100];
-        int i = 0;
+        ArrayList<Food> foodList = new ArrayList<>();
         try(conn; pstmt; rs) {
             while(rs.next()) {
                 Food food = new Food();
                 food.setFoodId(rs.getLong("foodId"));
-                food.setFoodName(rs.getString("name"));
-                food.setImage(rs.getBytes("storeId"));
-                food.setStoreId(rs.getLong("imageUrl"));
+                food.setFoodName(rs.getString("foodName"));
                 food.setPrice(rs.getLong("price"));
-                foodList[i] = food;
-                i++;
+                foodList.add(food);
             }
             pstmt.executeQuery();
-            return foodList;
+            return foodList.toArray(new Food[0]);
         }
     }
 }

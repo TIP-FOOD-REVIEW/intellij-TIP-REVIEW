@@ -27,7 +27,7 @@ public class ReviewDAO {
             pstmt.setLong(2, review.getStoreId());
             pstmt.setString(3, review.getContent());
             pstmt.setLong(4, review.getRating());
-            pstmt.setBytes(5, review.getImage());
+            pstmt.setString(5, review.getImage());
             pstmt.executeUpdate();
         }
     }
@@ -55,7 +55,7 @@ public class ReviewDAO {
             pstmt.setLong(2, review.getStoreId());
             pstmt.setString(3, review.getContent());
             pstmt.setLong(4, review.getRating());
-            pstmt.setBytes(5, review.getImage());
+            pstmt.setString(5, review.getImage());
             pstmt.setLong(6, review.getReviewId());
             pstmt.executeUpdate();
         }
@@ -79,7 +79,9 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImage(rs.getString("image"));
+
+                review.setImage(rs.getString("imageurl"));
+
                 reviewList.add(review);
             }
         }
@@ -105,7 +107,8 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImage(rs.getString("image"));
+                review.setImage(rs.getString("imageurl"));
+
                 reviewList.add(review);
             }
         }
@@ -130,7 +133,9 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImage(rs.getString("image"));
+
+                review.setImage(rs.getString("imageurl"));
+
                 reviewList.add(review);
             }
         }
@@ -155,7 +160,9 @@ public class ReviewDAO {
                     review.setStoreId(rs.getLong("storeId"));
                     review.setContent(rs.getString("content"));
                     review.setRating((int) rs.getLong("rating"));
-                    review.setImage(rs.getString("image"));
+
+                    review.setImage(rs.getString("imageurl"));
+
                     reviewList.add(review);
                 }
             }

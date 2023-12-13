@@ -1,10 +1,7 @@
 package Controller;
 
 import h2.DBConnection;
-import model.DAO.ReviewDAO;
-import model.DAO.SelectFoodDAO;
-import model.DAO.StoreDAO;
-import model.DAO.UserDAO;
+import model.DAO.*;
 import model.Entitiy.Review;
 import model.Entitiy.Store;
 
@@ -25,6 +22,7 @@ public class StoreDetailController extends HttpServlet {
     private StoreDAO storeDAO;
     private ReviewDAO reviewDAO;
     private UserDAO userDAO;
+    private FoodDAO foodDAO;
     private SelectFoodDAO selectFoodDAO;
 
     private final String storeDetailPage = "/storeDetail.jsp";
@@ -34,6 +32,7 @@ public class StoreDetailController extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
         this.storeDAO = new StoreDAO(dbConnection);
         this.reviewDAO = new ReviewDAO(dbConnection);
+        this.foodDAO = new FoodDAO(dbConnection);
         this.userDAO = new UserDAO(dbConnection);
         this.selectFoodDAO = new SelectFoodDAO(dbConnection);
     }
@@ -42,36 +41,38 @@ public class StoreDetailController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String storeId = request.getParameter("storeId");
         String action = request.getParameter("action");
-
         try {
-            getStore(request, response);
-            getReviewList(request, response);
+            if(action == null) {
+                getReviewList(request, response);
+            }else if(action.equals("getReviewListByRatingDESC")) {
+                getReviewListByRatingDESC(request, response);
+            }else if(action.equals("getReviewListByRatingASC")) {
+                getReviewListByRatingASC(request, response);
+            }else if(action.equals("getReviewListByStoreIdAndFoodId")) {
+                getReviewListByStoreIdAndFoodId(request, response);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    //getStore (by storeId)
-    public void getStore(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        Long storeId = Long.parseLong(request.getParameter("storeId"));
-        Store store = storeDAO.getStore(storeId);
-        request.setAttribute("store", store);
-        request.getRequestDispatcher(storeDetailPage).forward(request, response);
     }
 
     //ReviewList (by storeId)
     public void getReviewList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         Long storeId = Long.parseLong(request.getParameter("storeId"));
+        Store store = storeDAO.getStore(storeId);
+        request.setAttribute("store", store);
+
         Review[] reviewList = reviewDAO.listReviews(storeId);
         request.setAttribute("reviewList", reviewList);
+        //reviewList 출력
         for(int i = 0; i < reviewList.length; i++) {
             request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
             Long[] foodIdList = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
-            request.setAttribute("foodIdList_" + reviewList[i].getReviewId(), foodIdList);
+            for(int j = 0; j < foodIdList.length && foodIdList[j]!=null; j++) {
+                request.setAttribute("food_" + reviewList[i].getReviewId() + "_" + foodIdList[j], foodDAO.getFood(foodIdList[j]));
+            }
         }
         request.getRequestDispatcher(storeDetailPage).forward(request, response);
     }
@@ -80,26 +81,37 @@ public class StoreDetailController extends HttpServlet {
     public void getReviewListByRatingDESC(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         Long storeId = Long.parseLong(request.getParameter("storeId"));
+        Store store = storeDAO.getStore(storeId);
+        request.setAttribute("store", store);
+
         Review[] reviewList = reviewDAO.listByRating(storeId);
         request.setAttribute("reviewList", reviewList);
         for(int i = 0; i < reviewList.length; i++) {
             request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
             Long[] foodIdList = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
-            request.setAttribute("foodIdList_" + reviewList[i].getReviewId(), foodIdList);
+            for(int j = 0; j < foodIdList.length && foodIdList[j]!=null; j++) {
+                request.setAttribute("food_" + reviewList[i].getReviewId() + "_" + foodIdList[j], foodDAO.getFood(foodIdList[j]));
+            }
         }
         request.getRequestDispatcher(storeDetailPage).forward(request, response);
     }
+
 
     //ReviewListByRatingASC (by storeId)
     public void getReviewListByRatingASC(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         Long storeId = Long.parseLong(request.getParameter("storeId"));
+        Store store = storeDAO.getStore(storeId);
+        request.setAttribute("store", store);
+
         Review[] reviewList = reviewDAO.listByRatingAsc(storeId);
         request.setAttribute("reviewList", reviewList);
         for(int i = 0; i < reviewList.length; i++) {
             request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
             Long[] foodIdList = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
-            request.setAttribute("foodIdList_" + reviewList[i].getReviewId(), foodIdList);
+            for(int j = 0; j < foodIdList.length && foodIdList[j]!=null; j++) {
+                request.setAttribute("food_" + reviewList[i].getReviewId() + "_" + foodIdList[j], foodDAO.getFood(foodIdList[j]));
+            }
         }
         request.getRequestDispatcher(storeDetailPage).forward(request, response);
     }
@@ -108,6 +120,8 @@ public class StoreDetailController extends HttpServlet {
     public void getReviewListByStoreIdAndFoodId(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         Long storeId = Long.parseLong(request.getParameter("storeId"));
+        Store store = storeDAO.getStore(storeId);
+        request.setAttribute("store", store);
         Long foodId = Long.parseLong(request.getParameter("foodId"));
         Long[] reviewIdList = selectFoodDAO.listByStoreIdAndFoodId(storeId, foodId);
         Review[] reviewList = reviewDAO.listByListReviewId(reviewIdList);
@@ -115,17 +129,10 @@ public class StoreDetailController extends HttpServlet {
         for(int i = 0; i < reviewList.length; i++) {
             request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
             Long[] foodIdList = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
-            request.setAttribute("foodIdList_" + reviewList[i].getReviewId(), foodIdList);
+            for(int j = 0; j < foodIdList.length && foodIdList[j]!=null; j++) {
+                request.setAttribute("food_" + reviewList[i].getReviewId() + "_" + foodIdList[j], foodDAO.getFood(foodIdList[j]));
+            }
         }
-        request.getRequestDispatcher(storeDetailPage).forward(request, response);
-    }
-
-    //deleteReview (by reviewId)
-    public void deleteReview(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        Long reviewId = Long.parseLong(request.getParameter("reviewId"));
-        selectFoodDAO.deleteSelectFoodByReviewId(reviewId);
-        reviewDAO.deleteReview(reviewId);
         request.getRequestDispatcher(storeDetailPage).forward(request, response);
     }
 }
