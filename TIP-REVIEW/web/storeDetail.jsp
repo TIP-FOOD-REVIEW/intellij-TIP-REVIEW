@@ -58,6 +58,7 @@
         <%= store.getDescription() %>
     </div>
 
+
     <!-- New Menu -->
     <div class="mt-8">
         <h2 class="text-xl font-semibold mb-4">신규 메뉴</h2>
