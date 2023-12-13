@@ -19,7 +19,7 @@ public class StoreDAO {
     //getStore (by storeId)
     public Store getStore(Long storeId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM STORE WHERE STORE_ID = ?";
+        String sql = "SELECT * FROM STORE WHERE STOREID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         pstmt.setLong(1, storeId);

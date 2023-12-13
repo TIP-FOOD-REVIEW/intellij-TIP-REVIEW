@@ -16,25 +16,23 @@ public class SelectFoodDAO {
     }
 
     //addSelectFoodList
-    public void addSelectFoodList(SelectFood[] selectFoodList) throws SQLException {
+    public void addSelectFoodList(Long reviewId, Long storeId, Long foodId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "INSERT INTO SELECT_FOOD (REVIEW_ID, STORE_ID, FOOD_ID) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO SELECTFOOD (REVIEW_ID, STORE_ID, FOOD_ID) VALUES (?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {
-            for(int i = 0; i < selectFoodList.length; i++) {
-                pstmt.setLong(1, selectFoodList[i].getReviewId());
-                pstmt.setLong(2, selectFoodList[i].getStoreId());
-                pstmt.setLong(3, selectFoodList[i].getFoodId());
-                pstmt.executeUpdate();
-            }
+            pstmt.setLong(1, reviewId);
+            pstmt.setLong(2, storeId);
+            pstmt.setLong(3, foodId);
+            pstmt.executeUpdate();
         }
     }
 
     //deleteSelectFoodByReviewId
     public void deleteSelectFoodByReviewId(Long reviewId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "DELETE FROM SELECT_FOOD WHERE REVIEW_ID = ?";
+        String sql = "DELETE FROM SELECTFOOD WHERE REVIEW_ID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {
@@ -46,7 +44,7 @@ public class SelectFoodDAO {
     //ListByStoreIdAndFoodId (return reviewId)
     public Long[] listByStoreIdAndFoodId(Long storeId, Long foodId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM SELECT_FOOD WHERE STORE_ID = ? AND FOOD_ID = ?";
+        String sql = "SELECT * FROM SELECTFOOD WHERE STORE_ID = ? AND FOOD_ID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         pstmt.setLong(1, storeId);
@@ -68,7 +66,7 @@ public class SelectFoodDAO {
     //ListByReviewId (return foodId)
     public Long[] listByReviewId(Long reviewId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM SELECT_FOOD WHERE REVIEW_ID = ?";
+        String sql = "SELECT * FROM SELECTFOOD WHERE REVIEWID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         pstmt.setLong(1, reviewId);
