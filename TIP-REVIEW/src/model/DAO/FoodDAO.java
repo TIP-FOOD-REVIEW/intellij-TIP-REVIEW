@@ -28,8 +28,8 @@ public class FoodDAO {
         try(conn; pstmt; rs) {
             while(rs.next()) {
                 food.setFoodId(rs.getLong("foodId"));
-                food.setName(rs.getString("name"));
-                food.setImageUrl(rs.getBytes("storeId"));
+                food.setFoodName(rs.getString("name"));
+                food.setImage(rs.getBytes("storeId"));
                 food.setStoreId(rs.getLong("imageUrl"));
                 food.setPrice(rs.getLong("price"));
             }
@@ -53,8 +53,8 @@ public class FoodDAO {
             while(rs.next()) {
                 Food food = new Food();
                 food.setFoodId(rs.getLong("foodId"));
-                food.setName(rs.getString("name"));
-                food.setImageUrl(rs.getBytes("storeId"));
+                food.setFoodName(rs.getString("name"));
+                food.setImage(rs.getBytes("storeId"));
                 food.setStoreId(rs.getLong("imageUrl"));
                 food.setPrice(rs.getLong("price"));
                 foodList[i] = food;
@@ -80,8 +80,8 @@ public class FoodDAO {
             while(rs.next()) {
                 Food food = new Food();
                 food.setFoodId(rs.getLong("foodId"));
-                food.setName(rs.getString("name"));
-                food.setImageUrl(rs.getBytes("storeId"));
+                food.setFoodName(rs.getString("name"));
+                food.setImage(rs.getBytes("storeId"));
                 food.setStoreId(rs.getLong("imageUrl"));
                 food.setPrice(rs.getLong("price"));
                 foodList[i] = food;

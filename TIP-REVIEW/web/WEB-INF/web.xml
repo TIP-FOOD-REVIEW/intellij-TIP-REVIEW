@@ -16,12 +16,4 @@
         <welcome-file>default.jsp</welcome-file>
         <welcome-file>default.htm</welcome-file>
     </welcome-file-list>
-    <servlet>
-        <servlet-name>DBConnectionTestServlet</servlet-name>
-        <servlet-class>h2.DBConnectionTestServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DBConnectionTestServlet</servlet-name>
-        <url-pattern>/TestDB</url-pattern>
-    </servlet-mapping>
 </web-app>

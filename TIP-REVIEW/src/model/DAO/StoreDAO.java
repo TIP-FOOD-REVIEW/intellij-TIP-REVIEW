@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StoreDAO {
     final private DBConnection dbConnection;
@@ -28,7 +29,7 @@ public class StoreDAO {
         try(conn; pstmt; rs) {
             while(rs.next()) {
                 store.setStoreId(rs.getLong("storeId"));
-                store.setName(rs.getString("name"));
+                store.setStoreName(rs.getString("storeName"));
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
@@ -46,27 +47,25 @@ public class StoreDAO {
         Connection conn = dbConnection.getConnection();
         String sql = "SELECT * FROM STORE";
         PreparedStatement pstmt = conn.prepareStatement(sql);
-
         ResultSet rs = pstmt.executeQuery();
 
-        Store[] storeList = new Store[100];
-        int i = 0;
+        ArrayList<Store> tempList = new ArrayList<>();
         try (conn; pstmt; rs) {
             while (rs.next()) {
                 Store store = new Store();
                 store.setStoreId(rs.getLong("storeId"));
-                store.setName(rs.getString("name"));
+                store.setStoreName(rs.getString("storeName"));
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
                 store.setRating(rs.getDouble("rating"));
-                storeList[i] = store;
-                i++;
+                tempList.add(store);
             }
-            pstmt.executeQuery();
-            return storeList;
         }
+
+        return tempList.toArray(new Store[0]);
     }
+
 
     //ListByRating
     public Store[] listByRating() throws SQLException {
@@ -76,22 +75,21 @@ public class StoreDAO {
 
         ResultSet rs = pstmt.executeQuery();
 
-        Store[] storeList = new Store[100];
-        int i = 0;
-        try(conn; pstmt; rs) {
-            while(rs.next()) {
+        ArrayList<Store> tempList = new ArrayList<>();
+
+        try (conn; pstmt; rs) {
+            while (rs.next()) {
                 Store store = new Store();
                 store.setStoreId(rs.getLong("storeId"));
-                store.setName(rs.getString("name"));
+                store.setStoreName(rs.getString("storeName"));
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
                 store.setRating(rs.getDouble("rating"));
-                storeList[i] = store;
-                i++;
+                tempList.add(store);
             }
             pstmt.executeQuery();
-            return storeList;
+            return tempList.toArray(new Store[0]);
         }
     }
 
@@ -103,22 +101,21 @@ public class StoreDAO {
 
         ResultSet rs = pstmt.executeQuery();
 
-        Store[] storeList = new Store[100];
-        int i = 0;
+        ArrayList<Store> tempList = new ArrayList<>();
+
         try (conn; pstmt; rs) {
             while (rs.next()) {
                 Store store = new Store();
                 store.setStoreId(rs.getLong("storeId"));
-                store.setName(rs.getString("name"));
+                store.setStoreName(rs.getString("storeName"));
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
                 store.setRating(rs.getDouble("rating"));
-                storeList[i] = store;
-                i++;
+                tempList.add(store);
             }
             pstmt.executeQuery();
-            return storeList;
+            return tempList.toArray(new Store[0]);
         }
     }
 
@@ -131,22 +128,21 @@ public class StoreDAO {
         pstmt.setString(1, "%" + name + "%");
         ResultSet rs = pstmt.executeQuery();
 
-        Store[] storeList = new Store[100];
-        int i = 0;
-        try(conn; pstmt; rs) {
-            while(rs.next()) {
+        ArrayList<Store> tempList = new ArrayList<>();
+
+        try (conn; pstmt; rs) {
+            while (rs.next()) {
                 Store store = new Store();
                 store.setStoreId(rs.getLong("storeId"));
-                store.setName(rs.getString("name"));
+                store.setStoreName(rs.getString("storeName"));
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setImage(rs.getBytes("image"));
                 store.setRating(rs.getDouble("rating"));
-                storeList[i] = store;
-                i++;
+                tempList.add(store);
             }
             pstmt.executeQuery();
-            return storeList;
+            return tempList.toArray(new Store[0]);
         }
     }
 }

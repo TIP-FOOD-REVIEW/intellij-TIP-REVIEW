@@ -30,34 +30,6 @@ public class UserDAO {
         }
     }
 
-    //deleteUser
-    public void deleteUser(Long userId) throws SQLException {
-        Connection conn = dbConnection.getConnection();
-        String sql = "DELETE FROM USER WHERE USER_ID = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-
-        try(conn; pstmt) {
-            pstmt.setLong(1, userId);
-            pstmt.executeUpdate();
-        }
-    }
-
-    //updateUser
-    public void updateUser(User user) throws SQLException {
-        Connection conn = dbConnection.getConnection();
-        String sql = "UPDATE USER SET USERNAME = ?, PASSWORD = ?, EMAIL = ?, PHONE = ? WHERE USER_ID = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-
-        try(conn; pstmt) {
-            pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getPassword());
-            pstmt.setString(3, user.getEmail());
-            pstmt.setString(4, user.getPhone());
-            pstmt.setLong(5, user.getUserId());
-            pstmt.executeUpdate();
-        }
-    }
-
     //login (by username, password) -> return userId
     public Long login(String username, String password) throws SQLException {
         Connection conn = dbConnection.getConnection();

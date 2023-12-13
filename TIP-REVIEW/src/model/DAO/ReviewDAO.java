@@ -26,7 +26,7 @@ public class ReviewDAO {
             pstmt.setLong(2, review.getStoreId());
             pstmt.setString(3, review.getContent());
             pstmt.setLong(4, review.getRating());
-            pstmt.setBytes(5, review.getImageUrl());
+            pstmt.setBytes(5, review.getImage());
             pstmt.executeUpdate();
         }
     }
@@ -54,7 +54,7 @@ public class ReviewDAO {
             pstmt.setLong(2, review.getStoreId());
             pstmt.setString(3, review.getContent());
             pstmt.setLong(4, review.getRating());
-            pstmt.setBytes(5, review.getImageUrl());
+            pstmt.setBytes(5, review.getImage());
             pstmt.setLong(6, review.getReviewId());
             pstmt.executeUpdate();
         }
@@ -79,7 +79,7 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImageUrl(rs.getBytes("imageUrl"));
+                review.setImage(rs.getBytes("imageUrl"));
                 reviewList[i] = review;
                 i++;
             }
@@ -107,7 +107,7 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImageUrl(rs.getBytes("imageUrl"));
+                review.setImage(rs.getBytes("imageUrl"));
                 reviewList[i] = review;
                 i++;
             }
@@ -135,7 +135,7 @@ public class ReviewDAO {
                 review.setStoreId(rs.getLong("storeId"));
                 review.setContent(rs.getString("content"));
                 review.setRating((int) rs.getLong("rating"));
-                review.setImageUrl(rs.getBytes("imageUrl"));
+                review.setImage(rs.getBytes("imageUrl"));
                 reviewList[i] = review;
                 i++;
             }
@@ -163,7 +163,7 @@ public class ReviewDAO {
                     review.setStoreId(rs.getLong("storeId"));
                     review.setContent(rs.getString("content"));
                     review.setRating((int) rs.getLong("rating"));
-                    review.setImageUrl(rs.getBytes("imageUrl"));
+                    review.setImage(rs.getBytes("imageUrl"));
                     reviewList[i] = review;
                     i++;
                 }

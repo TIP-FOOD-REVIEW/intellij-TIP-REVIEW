@@ -2,17 +2,17 @@ package model.Entitiy;
 
 public class Food {
     private Long foodId;
-    private String name;
+    private String foodName;
     private Long storeId;
-    private byte[] imageUrl;
     private Long price;
+    private byte[] image;
 
-    public byte[] getImageUrl() {
-        return imageUrl;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImageUrl(byte[] imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public Long getFoodId() {
@@ -23,12 +23,12 @@ public class Food {
         this.foodId = foodId;
     }
 
-    public String getName() {
-        return name;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public Long getStoreId() {

@@ -9,7 +9,7 @@ public class Review {
     private Long storeId;
     private String content;
     private Integer rating;
-    private byte[] imageUrl;
+    private byte[] image;
 
     public Long getReviewId() {
         return reviewId;
@@ -51,12 +51,12 @@ public class Review {
         this.rating = rating;
     }
 
-    public byte[] getImageUrl() {
-        return imageUrl;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImageUrl(byte[] imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public Timestamp getCreatedAt() {

@@ -25,6 +25,15 @@ public class UserController extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
         this.userDAO = new UserDAO(dbConnection);
     }
+    //service
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
+        // /User/LoginForm.jsp 실행
+        request.getRequestDispatcher("/User/loginForm.jsp").forward(request,response);
+    }
+
     //doGet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -74,49 +83,6 @@ public class UserController extends HttpServlet {
 
         //request.getRequestDispatcher("/result.jsp").forward(request, response);
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
-    }
-
-    private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long userId = Long.parseLong(request.getParameter("userId"));
-
-        try {
-            userDAO.deleteUser(userId);
-            String resultMessage = "User.java deleted successfully.";
-            request.setAttribute("resultMessage", resultMessage);
-        } catch (Exception e) {
-            e.printStackTrace();
-            String resultMessage = "Failed to delete user.";
-            request.setAttribute("resultMessage", resultMessage);
-        }
-
-        request.getRequestDispatcher("/result.jsp").forward(request, response);
-    }
-
-    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long userId = Long.parseLong(request.getParameter("userId"));
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-
-        User user = new User();
-        user.setUserId(userId);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setPhone(phone);
-
-        try {
-            userDAO.updateUser(user);
-            String resultMessage = "User.java updated successfully.";
-            request.setAttribute("resultMessage", resultMessage);
-        } catch (Exception e) {
-            e.printStackTrace();
-            String resultMessage = "Failed to update user.";
-            request.setAttribute("resultMessage", resultMessage);
-        }
-
-        request.getRequestDispatcher("/result.jsp").forward(request, response);
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
