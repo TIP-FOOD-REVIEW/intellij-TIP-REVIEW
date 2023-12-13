@@ -1,7 +1,7 @@
 package Controller;
 
 import Bean.UserBean;
-import model.Entitiy.User;
+import model.Entitiy.Users;
 
 
 import javax.servlet.ServletException;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/userController")
+@WebServlet(urlPatterns = "/userController")
 public class UserController extends HttpServlet {
 
     private UserBean userBean = UserBean.getInstance();
@@ -38,8 +38,7 @@ public class UserController extends HttpServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-
-        User user = new User();
+        Users user = new Users();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
@@ -55,7 +54,8 @@ public class UserController extends HttpServlet {
             request.setAttribute("resultMessage", resultMessage);
         }
 
-        request.getRequestDispatcher("/result.jsp").forward(request, response);
+        //request.getRequestDispatcher("/result.jsp").forward(request, response);
+        request.getRequestDispatcher("/hello.jsp").forward(request, response);
     }
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -81,7 +81,7 @@ public class UserController extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
 
-        User user = new User();
+        Users user = new Users();
         user.setUserId(userId);
         user.setUsername(username);
         user.setPassword(password);
@@ -104,15 +104,26 @@ public class UserController extends HttpServlet {
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        System.out.println("username: " + username + ", password: " + password);
 
         try {
             Long userId = userBean.getUserDAO().login(username, password);
             if (userId != null) {
+
                 String resultMessage = "Login successful. User ID: " + userId;
                 request.setAttribute("resultMessage", resultMessage);
+                request.setAttribute("username", username); //화면에 보여줄 유저 아이디
+
+                //유저 기본키
+                request.setAttribute("userId", userId); //이 값으로 마이페이지 정보에 접근
+
+                //성공 시 메인페이지로 이동
+                request.getRequestDispatcher("/hello.jsp").forward(request, response);
             } else {
                 String resultMessage = "Login failed. Invalid credentials.";
                 request.setAttribute("resultMessage", resultMessage);
+                System.out.println("실패!!");
+                request.getRequestDispatcher("/User/loginForm.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,14 +131,14 @@ public class UserController extends HttpServlet {
             request.setAttribute("resultMessage", resultMessage);
         }
 
-        request.getRequestDispatcher("/result.jsp").forward(request, response);
+        //request.getRequestDispatcher("/result.jsp").forward(request, response);
     }
 
     private void getUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long userId = Long.parseLong(request.getParameter("userId"));
 
         try {
-            User user = userBean.getUserDAO().getUser(userId);
+            Users user = userBean.getUserDAO().getUser(userId);
             String resultMessage = "User retrieved successfully. User: " + user.getUsername();
             request.setAttribute("resultMessage", resultMessage);
         } catch (Exception e) {

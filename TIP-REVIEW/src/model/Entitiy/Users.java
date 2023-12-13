@@ -1,6 +1,6 @@
 package model.Entitiy;
 
-public class User {
+public class Users {
     private Long userId;
     private String username;
     private String password;

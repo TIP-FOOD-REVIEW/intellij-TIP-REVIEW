@@ -1,7 +1,7 @@
 package model.DAO;
 
 import h2.DBConnection;
-import model.Entitiy.User;
+import model.Entitiy.Users;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +17,9 @@ public class UserDAO {
 
 
     //addUser
-    public void addUser(User user) throws SQLException {
+    public void addUser(Users user) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "INSERT INTO USER (USERNAME, PASSWORD, EMAIL, PHONE) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, PHONE) VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {
@@ -44,7 +44,7 @@ public class UserDAO {
     }
 
     //updateUser
-    public void updateUser(User user) throws SQLException {
+    public void updateUser(Users user) throws SQLException {
         Connection conn = dbConnection.getConnection();
         String sql = "UPDATE USER SET USERNAME = ?, PASSWORD = ?, EMAIL = ?, PHONE = ? WHERE USER_ID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -62,19 +62,25 @@ public class UserDAO {
     //login (by username, password) -> return userId
     public Long login(String username, String password) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT USER_ID FROM USER WHERE USERNAME = ? AND PASSWORD = ?";
+        String sql = "SELECT USER_ID FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
-            pstmt.executeQuery();
-            return pstmt.getResultSet().getLong("userId");
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getLong("USER_ID");
+                } else {
+                    // 사용자가 존재하지 않을 경우에 대한 처리
+                    return null;
+                }
+            }
         }
     }
 
     //getUser (by userId)
-    public User getUser(Long userId) throws SQLException {
+    public Users getUser(Long userId) throws SQLException {
         Connection conn = dbConnection.getConnection();
         String sql = "SELECT * FROM USER WHERE USER_ID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -82,7 +88,7 @@ public class UserDAO {
         pstmt.setLong(1, userId);
         ResultSet rs = pstmt.executeQuery();
 
-        User user = new User();
+        Users user = new Users();
         try(conn; pstmt; rs) {
             user.setUserId(rs.getLong("userId"));
             user.setUsername(rs.getString("username"));
