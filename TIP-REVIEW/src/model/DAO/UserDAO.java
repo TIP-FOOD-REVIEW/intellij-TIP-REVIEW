@@ -18,7 +18,7 @@ public class UserDAO {
     //addUser
     public void addUser(User user) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "INSERT INTO USER (USERNAME, PASSWORD, EMAIL, PHONE) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, PHONE) VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {
@@ -33,14 +33,15 @@ public class UserDAO {
     //login (by username, password) -> return userId
     public Long login(String username, String password) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT USER_ID FROM USER WHERE USERNAME = ? AND PASSWORD = ?";
+        String sql = "SELECT USER_ID FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
-            pstmt.executeQuery();
-            return pstmt.getResultSet().getLong("userId");
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return pstmt.getResultSet().getLong("USER_ID");
         }
     }
 

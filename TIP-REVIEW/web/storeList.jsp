@@ -52,12 +52,37 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">로그인</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">회원가입</a>
-                    </li>
+                    <!-- 세션에 username이 있다면 로그인 상태로 간주 -->
+                    <% String username = (String) session.getAttribute("username");
+                    if (username != null && !username.isEmpty()) { %>
+                        <li class="nav-item d-flex align-items-center">
+                            <span class="navbar-text">
+                                <%= "환영합니다, " + username + "님" %>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);" onclick="logout()">로그아웃</a>
+                        </li>
+                    <% } else { %>
+                        <!-- 세션에 username이 없다면 로그인 버튼 표시 -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/User/loginForm.jsp">로그인</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/User/signUpForm.jsp">회원가입</a>
+                        </li>
+                    <% } %>
+
+                    <script>
+                        function logout() {
+                            fetch('/userController?action=logout', { method: 'POST' })
+                                .then(response => {
+
+                                    window.location.href = '/storeList.jsp';
+                                })
+                                .catch(error => console.error('Error during logout:', error));
+                        }
+                    </script>
                 </ul>
             </div>
         </div>
