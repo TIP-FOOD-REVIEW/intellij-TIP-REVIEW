@@ -1,42 +1,53 @@
 package Controller;
 
 import Bean.UserBean;
+import h2.DBConnection;
+import model.DAO.UserDAO;
 import model.Entitiy.Users;
 
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 @WebServlet(urlPatterns = "/userController")
 public class UserController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-    private UserBean userBean = UserBean.getInstance();
+    private UserDAO userDAO;
 
+
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        DBConnection dbConnection = new DBConnection();
+        this.userDAO = new UserDAO(dbConnection);
+
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-
-        if ("addUser".equals(action)) {
-            addUser(request, response);
-        } else if ("deleteUser".equals(action)) {
-            deleteUser(request, response);
-        } else if ("updateUser".equals(action)) {
-            updateUser(request, response);
-        } else if ("login".equals(action)) {
-            login(request, response);
-            //getUser가 마이페이지로 이동하는 느낌
+        try {
+            Method method = getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
+            method.invoke(this, request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         // 다른 액션들에 대한 처리도 추가 가능
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-
-        if("getUser".equals(action)) {
-            getUser(request, response);
+        try {
+            Method method = getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
+            method.invoke(this, request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -52,7 +63,7 @@ public class UserController extends HttpServlet {
         user.setPhone(phone);
 
         try {
-            userBean.getUserDAO().addUser(user);
+            userDAO.addUser(user);
             String resultMessage = "User added successfully.";
             request.setAttribute("resultMessage", resultMessage);
         } catch (Exception e) {
@@ -69,7 +80,7 @@ public class UserController extends HttpServlet {
         Long userId = Long.parseLong(request.getParameter("userId"));
 
         try {
-            userBean.getUserDAO().deleteUser(userId);
+            userDAO.deleteUser(userId);
             String resultMessage = "User deleted successfully.";
             request.setAttribute("resultMessage", resultMessage);
         } catch (Exception e) {
@@ -96,7 +107,7 @@ public class UserController extends HttpServlet {
         user.setPhone(phone);
 
         try {
-            userBean.getUserDAO().updateUser(user);
+            userDAO.updateUser(user);
             String resultMessage = "User updated successfully.";
             request.setAttribute("resultMessage", resultMessage);
         } catch (Exception e) {
@@ -114,7 +125,7 @@ public class UserController extends HttpServlet {
         System.out.println("username: " + username + ", password: " + password);
 
         try {
-            Long userId = userBean.getUserDAO().login(username, password);
+            Long userId = userDAO.login(username, password);
             if (userId != null) {
 
                 String resultMessage = "Login successful. User ID: " + userId;
@@ -129,7 +140,7 @@ public class UserController extends HttpServlet {
             } else {
                 String resultMessage = "Login failed. Invalid credentials.";
                 request.setAttribute("resultMessage", resultMessage);
-                System.out.println("실패!!");
+                System.out.println("로그인 실패!!");
                 request.getRequestDispatcher("/User/loginForm.jsp").forward(request, response);
             }
         } catch (Exception e) {
@@ -145,7 +156,7 @@ public class UserController extends HttpServlet {
         Long userId = Long.parseLong(request.getParameter("userId"));
 
         try {
-            Users user = userBean.getUserDAO().getUser(userId);
+            Users user = userDAO.getUser(userId);
             //이렇게 객체 보내는게 되나??
             request.setAttribute("user", user);
 
