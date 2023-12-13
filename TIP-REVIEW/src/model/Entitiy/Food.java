@@ -5,15 +5,6 @@ public class Food {
     private String foodName;
     private Long storeId;
     private Long price;
-    private byte[] image;
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 
     public Long getFoodId() {
         return foodId;

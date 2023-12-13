@@ -7,7 +7,6 @@ public class Store {
     private String phone;
     private String description;
     private String location;
-    private byte[] image;
     private Double rating;
     private Long ReviewCount;
 
@@ -31,13 +30,6 @@ public class Store {
 
     public void setLocation(String location) {this.location = location;}
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 
     public Long getStoreId() {
         return storeId;
