@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/reviewController")
-@MultipartConfig(maxFileSize = 1024*1024*2, location="/Users/sangwon/Desktop/tip-food/intellij-TIP-REVIEW/TIP-REVIEW/web/images")
+@MultipartConfig(maxFileSize = 1024*1024*10, location="C:/Users/신혁준/eclipse-workspace/intellij-TIP-REVIEW/TIP-REVIEW/web/images")
 public class ReviewPostController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -75,8 +75,8 @@ public class ReviewPostController extends HttpServlet {
         Long userId = (Long) session.getAttribute("userId");
         System.out.println( "userId = " + userId);
 
-        Long storeId = Long.valueOf(request.getParameter("storeId"));
-        System.out.println("storeId = " + storeId);
+       Long storeId = Long.parseLong(request.getParameter("storeId"));
+       System.out.println("storeId = " + storeId);
 
         String reviewContent = request.getParameter("reviewContent");
         System.out.println("reviewContent = " + reviewContent);
@@ -110,8 +110,8 @@ public class ReviewPostController extends HttpServlet {
         review.setImage(fileName);
 
         reviewDAO.addReview(review);
-        //redirect
         response.sendRedirect("/storeDetail?action=getReviewList&storeId=" + storeId);
+        //redirect
 
 // This will be an array of food IDs that were checked
 
