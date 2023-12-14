@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SelectFoodDAO {
     final private DBConnection dbConnection;
@@ -51,15 +52,13 @@ public class SelectFoodDAO {
         pstmt.setLong(2, foodId);
         ResultSet rs = pstmt.executeQuery();
 
-        Long[] reviewIdList = new Long[100];
-        int i = 0;
+        ArrayList<Long> foodIdList = new ArrayList<>();
         try(conn; pstmt; rs) {
             while(rs.next()) {
-                reviewIdList[i] = rs.getLong("reviewId");
-                i++;
+                foodIdList.add(rs.getLong("reviewId"));
             }
             pstmt.executeQuery();
-            return reviewIdList;
+            return foodIdList.toArray(new Long[0]);
         }
     }
 
@@ -72,15 +71,13 @@ public class SelectFoodDAO {
         pstmt.setLong(1, reviewId);
         ResultSet rs = pstmt.executeQuery();
 
-        Long[] foodIdList = new Long[100];
-        int i = 0;
+        ArrayList<Long> foodIdList = new ArrayList<>();
         try(conn; pstmt; rs) {
             while(rs.next()) {
-                foodIdList[i] = rs.getLong("foodId");
-                i++;
+                foodIdList.add(rs.getLong("foodId"));
             }
             pstmt.executeQuery();
-            return foodIdList;
+            return foodIdList.toArray(new Long[0]);
         }
     }
 }

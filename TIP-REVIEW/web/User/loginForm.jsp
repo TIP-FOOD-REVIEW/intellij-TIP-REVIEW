@@ -32,7 +32,7 @@
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center">
                             <form class="container" action="/userController?action=login" method="post">
-                                <a href="/storeList.jsp" class="logo">
+                                <a href="/home" class="logo">
                                     <h1 class="blind">Tip-Review</h1>
                                 </a>
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4"></p>
@@ -44,9 +44,10 @@
 
                                 <!-- Password input -->
                                 <div class="form-outline mb-4">
-                                    <input type="text" id="form2Example2" name = "password" class="form-control" name="password"/>
+                                    <input type="password" id="form2Example2" name="password" class="form-control" />
                                     <label class="form-label" for="form2Example2">비밀번호</label>
                                 </div>
+
 
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns = "/home")
 public class StoreController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private StoreDAO storeDAO;
@@ -34,26 +34,16 @@ public class StoreController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
-        Method method;
-        String viewPage = null;
-
-        if(action == null){
-            try {
-                listStore(request,response);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+        try {
+            if(action == null) {
+                listStore(request, response);
+            }else if(action.equals("listByRating")) {
+                listByRating(request, response);
+            }else if(action.equals("listByReviewCount")) {
+                listByReviewCount(request, response);
             }
-        }
-        else{
-            try {
-                method = getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
-                viewPage = (String) method.invoke(this, request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if(viewPage != null){
-                request.getRequestDispatcher(storeListPage).forward(request,response);
-            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -82,13 +72,4 @@ public class StoreController extends HttpServlet {
         request.getRequestDispatcher(storeListPage).forward(request,response);
     }
 
-
-    //searchStore (by storeName)
-    private void searchStore(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        String storeName = request.getParameter("storeName");
-        Store[] storeArray = storeDAO.searchStore(storeName);
-        request.setAttribute("storeList", storeArray);
-        request.getRequestDispatcher(storeListPage).forward(request,response);
-    }
 }

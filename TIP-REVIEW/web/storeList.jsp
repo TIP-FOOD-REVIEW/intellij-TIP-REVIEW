@@ -6,94 +6,49 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TIP-REVIEW</title>
-
-    <script>
-        var sortByRating = false;
-        var sortByReviewCount = false;
-
-        function toggleSortByRating() {
-            sortByRating = !sortByRating;
-            sortByReviewCount = false;
-            updateSortButtons();
-            console.log("별점 높은 순으로 정렬: " + sortByRating);
-            window.location.href = '/StoreController?action=listByRating';
-        }
-
-        function toggleSortByReviewCount() {
-            sortByReviewCount = !sortByReviewCount;
-            sortByRating = false;
-            updateSortButtons();
-            console.log("리뷰 많은 순으로 정렬: " + sortByReviewCount);
-            fetchSortedStoreList(sortByRating, sortByReviewCount);
-        }
-
-        function updateSortButtons() {
-            var ratingButton = document.getElementById("ratingButton");
-            var reviewCountButton = document.getElementById("reviewCountButton");
-
-            ratingButton.classList.toggle("btn-primary", sortByRating);
-            ratingButton.classList.toggle("btn-secondary", !sortByRating);
-
-            reviewCountButton.classList.toggle("btn-primary", sortByReviewCount);
-            reviewCountButton.classList.toggle("btn-secondary", !sortByReviewCount);
-        }
-    </script>
+    <title>Restaurant Listings</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">TIP-REVIEW</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <!-- 세션에 username이 있다면 로그인 상태로 간주 -->
-                    <% String username = (String) session.getAttribute("username");
+<div class="bg-light">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center py-3">
+            <div onclick="location.href='/home'">
+                <h1 class="navbar-brand" >TIP-REVIEW</h1>
+            </div>
+            <div>
+                <% String username = (String) session.getAttribute("username");
                     if (username != null && !username.isEmpty()) { %>
-                        <li class="nav-item d-flex align-items-center">
-                            <span class="navbar-text">
-                                <%= "환영합니다, " + username + "님" %>
-                            </span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" onclick="logout()">로그아웃</a>
-                        </li>
-                    <% } else { %>
-                        <!-- 세션에 username이 없다면 로그인 버튼 표시 -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="/User/loginForm.jsp">로그인</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/User/signUpForm.jsp">회원가입</a>
-                        </li>
-                    <% } %>
-
-                    <script>
-                        function logout() {
-                            fetch('/userController?action=logout', { method: 'POST' })
-                                .then(response => {
-
-                                    window.location.href = '/storeList.jsp';
-                                })
-                                .catch(error => console.error('Error during logout:', error));
-                        }
-                    </script>
-                </ul>
+                <span><%= "환영합니다, " + username + "님" %></span>
+                <a href="javascript:void(0);" onclick="logout()">로그아웃</a>
+                <% } else { %>
+                <a href="/User/loginForm.jsp">로그인</a>
+                <a href="/User/signUpForm.jsp">회원가입</a>
+                <% } %>
             </div>
         </div>
-    </nav>
+    </div>
+</div>
 
-    <div class="container w-75 mt-5 mx-auto">
-        <div class="d-flex justify-content-between">
-            <h2>가게 목록</h2>
+<script>
+    function logout() {
+        fetch('/userController?action=logout', { method: 'POST' })
+            .then(response => {
+                window.location.href = '/home';
+            })
+            .catch(error => console.error('Error during logout:', error));
+    }
+</script>
+
+
+<div class="container w-75 mt-5 mx-auto">
+        <div class="d-flex justify-content-between" style="padding-bottom: 1rem">
+            <h2 style="font-size: 40px;">가게 목록</h2>
             <div class="btn-group mt-3">
-                <button id="ratingButton" type="button" class="btn btn-secondary" onclick="toggleSortByRating()">별점 높은 순</button>
-                <button id="reviewCountButton" type="button" class="btn btn-secondary" onclick="toggleSortByReviewCount()">리뷰 많은 순</button>
+                <button id="ratingButton" type="button" class="btn btn-secondary" onclick="location.href='/home?action=listByRating';" style="background-color: #686868;"> 별점 높은 순</button>
+                <button id="reviewCountButton" type="button" class="btn btn-secondary" onclick="location.href='/home?action=listByReviewCount';" style="background-color: #686868;">리뷰 많은 순</button>
             </div>
         </div>
         <hr>
@@ -105,8 +60,19 @@
                         Store store = storeList[i];
             %>
             <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <a href="?action=getStore&storeId=<%= store.getStoreId() %>" class="text-decoration-none">
-                    [<%= (i + 1) %>] <%= store.getStoreName() %> <%= store.getRating() %> <%= store.getReviewCount() %></a>
+                <div class="bg-white shadow rounded-lg p-4 flex justify-between items-center" style="width:inherit" onclick="location.href='/storeDetail?action=getReviewList&storeId=<%=store.getStoreId()%>';">
+                    <div>
+                        <h2 class="text-lg font-semibold"><%= store.getStoreName() %></h2>
+                        <p class="text-gray-600"><%= store.getAddress() %></p>
+                    </div>
+                    <div class="text-right">
+                        <div class="flex items-center mb-1">
+                            <span class="rating-star">⭐️</span>
+                            <span class="ml-1 font-semibold"><%= store.getRating() %></span>
+                        </div>
+                        <div class="text-sm text-gray-500">리뷰 <%= store.getReviewCount() %>개</div>
+                    </div>
+                </div>
             </li>
             <%
                     }

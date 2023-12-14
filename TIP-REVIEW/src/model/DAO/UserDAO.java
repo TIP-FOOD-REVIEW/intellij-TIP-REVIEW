@@ -33,7 +33,7 @@ public class UserDAO {
     //login (by username, password) -> return userId
     public Long login(String username, String password) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT USER_ID FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
+        String sql = "SELECT USERID FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {
@@ -41,7 +41,7 @@ public class UserDAO {
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            return pstmt.getResultSet().getLong("USER_ID");
+            return pstmt.getResultSet().getLong("userId");
         }
     }
 
