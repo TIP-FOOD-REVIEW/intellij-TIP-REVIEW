@@ -19,7 +19,7 @@ public class SelectFoodDAO {
     //addSelectFoodList
     public void addSelectFoodList(Long reviewId, Long storeId, Long foodId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "INSERT INTO SELECTFOOD (REVIEW_ID, STORE_ID, FOOD_ID) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO SELECTFOOD (REVIEWID, STOREID, FOODID) VALUES (?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {

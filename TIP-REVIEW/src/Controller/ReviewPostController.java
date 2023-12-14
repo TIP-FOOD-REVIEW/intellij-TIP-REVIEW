@@ -4,6 +4,7 @@ import h2.DBConnection;
 import model.DAO.*;
 import model.Entitiy.Food;
 import model.Entitiy.Review;
+import model.Entitiy.SelectFood;
 import model.Entitiy.Store;
 
 import javax.servlet.ServletConfig;
@@ -12,7 +13,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/reviewController")
@@ -75,15 +75,33 @@ public class ReviewPostController extends HttpServlet {
         Long userId = (Long) session.getAttribute("userId");
         System.out.println( "userId = " + userId);
 
-       Long storeId = Long.parseLong(request.getParameter("storeId"));
-       System.out.println("storeId = " + storeId);
+        Long storeId = null;
+        String storeIdParam = request.getParameter("storeId");
+        if (storeIdParam != null && !storeIdParam.isEmpty()) {
+            try {
+                storeId = Long.parseLong(storeIdParam);
+            } catch (NumberFormatException e) {
+                e.printStackTrace(); // 또는 로깅 등의 적절한 처리
+            }
+        }
+        System.out.println("storeId = " + storeId);
 
         String reviewContent = request.getParameter("reviewContent");
         System.out.println("reviewContent = " + reviewContent);
 
-        Integer rating = Integer.parseInt(request.getParameter("rating"));
+        Integer rating = null;
+        String ratingParam = request.getParameter("rating");
+        if (ratingParam != null && !ratingParam.isEmpty()) {
+            try {
+                rating = Integer.parseInt(ratingParam);
+            } catch (NumberFormatException e) {
+                e.printStackTrace(); // 또는 로깅 등의 적절한 처리
+            }
+        }
         System.out.println("rating = " + rating);
-
+        if(rating == null) {
+            rating = 3;
+        }
 
 
         Part imageFilePart = request.getPart("imageFile");
@@ -96,11 +114,9 @@ public class ReviewPostController extends HttpServlet {
 
 
         System.out.println("userId = " + userId);
-        //System.out.println("storeId = " + storeId);
         System.out.println("reviewContent = " + reviewContent);
         System.out.println("rating = " + rating);
         System.out.println("imageFilePart = " + imageFilePart);
-        System.out.println("selectedFoods = " + selectedFoods);
 
         Review review = new Review();
         review.setUserId(userId);
@@ -109,36 +125,14 @@ public class ReviewPostController extends HttpServlet {
         review.setContent(reviewContent);
         review.setImage(fileName);
 
-        reviewDAO.addReview(review);
-        response.sendRedirect("/storeDetail?action=getReviewList&storeId=" + storeId);
+        Long reviewId = reviewDAO.addReview(review);
+
+        for(String food : selectedFoods) {
+            System.out.println("food = " + food);
+            selectFoodDAO.addSelectFoodList(reviewId, storeId, Long.parseLong(food));
+        }
         //redirect
-
-// This will be an array of food IDs that were checked
-
-
-//        Long storeId = Long.valueOf(request.getParameter("storeId"));
-//        Store store = storeDAO.getStore(storeId);
-//
-//        //session에서 userId 받아오기
-//        HttpSession session = request.getSession();
-//        Long userId = (Long) session.getAttribute("userId");
-//
-//        String content = request.getParameter("content");
-//        String ratingParam = request.getParameter("rating");
-//        Integer rating = (ratingParam != null) ? Integer.valueOf(ratingParam) : 0; // 또는 다른 디폴트 값
-//        Review review = new Review();
-//        review.setContent(content);
-//        review.setRating(rating);
-//        review.setStoreId(storeId);
-//        review.setUserId(userId);
-//        //이미지 주소 받아오는 부분으로 교체 필요
-//        review.setImage("12345");
-//        reviewDAO.addReview(review);
-//
-//        String[] selectFoodList = request.getParameterValues("selectFoodList");
-////        for (String selectFood : selectFoodList) {
-////            //selectFoodDAO.addSelectFoodList(userId, storeId, selectFood);
-////        }
+        response.sendRedirect("/storeDetail?action=getReviewList&storeId=" + storeId);
     }
     private String getFilename(Part part) {
         String fileName = null;
@@ -151,9 +145,12 @@ public class ReviewPostController extends HttpServlet {
             if (start != -1) {
                 fileName = header.substring(start + 10, header.length() - 1);
 
+                // Remove underscores from the file name
+                fileName = fileName.replace("_", "");
             }
         }
 
         return fileName;
     }
+
 }

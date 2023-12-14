@@ -47,8 +47,8 @@
         <div class="d-flex justify-content-between" style="padding-bottom: 1rem">
             <h2 style="font-size: 40px;">가게 목록</h2>
             <div class="btn-group mt-3">
-                <button id="ratingButton" type="button" class="btn btn-secondary" onclick="location.href='/home?action=listByRating';" style="background-color: #686868;"> 별점 높은 순</button>
-                <button id="reviewCountButton" type="button" class="btn btn-secondary" onclick="location.href='/home?action=listByReviewCount';" style="background-color: #686868;">리뷰 많은 순</button>
+                <button id="ratingButton" type="button" class="btn btn-secondary bg-red-500 text-white  px-4 py-2" onclick="location.href='/home?action=listByRating';" > 별점 높은 순</button>
+                <button id="reviewCountButton" type="button" class="btn btn-secondary bg-green-500 text-white px-4 py-2" onclick="location.href='/home?action=listByReviewCount';" >리뷰 많은 순</button>
             </div>
         </div>
         <hr>

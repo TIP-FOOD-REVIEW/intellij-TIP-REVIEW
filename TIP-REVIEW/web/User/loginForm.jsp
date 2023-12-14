@@ -47,7 +47,12 @@
                                     <input type="password" id="form2Example2" name="password" class="form-control" />
                                     <label class="form-label" for="form2Example2">비밀번호</label>
                                 </div>
-
+                                <% String resultMessage = (String) request.getAttribute("resultMessage");
+                                    if(resultMessage == null){
+                                        resultMessage = "";
+                                    }
+                                %>
+                                <p style="color: red"><%= resultMessage %></p>
 
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block mb-4 btn-dark ">로그인</button>

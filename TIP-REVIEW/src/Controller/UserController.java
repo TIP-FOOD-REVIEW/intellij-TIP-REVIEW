@@ -90,7 +90,7 @@ public class UserController extends HttpServlet {
                 session.setAttribute("username", username); //메인에 보여줌
 
             } else {
-                String resultMessage = "Login failed. Invalid credentials.";
+                String resultMessage = "아이디나 비밀번호가 일치하지 않습니다.";
                 request.setAttribute("resultMessage", resultMessage);
                 System.out.println("로그인 실패!!");
                 request.getRequestDispatcher("/User/loginForm.jsp").forward(request, response);
