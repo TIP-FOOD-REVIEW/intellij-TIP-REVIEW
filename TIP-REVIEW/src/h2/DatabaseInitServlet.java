@@ -20,6 +20,11 @@ public class DatabaseInitServlet extends HttpServlet {
         try {
             Connection conn = DBConnection.getConnection();
             Statement stmt = conn.createStatement();
+            stmt.execute("DROP TABLE IF EXISTS Users");
+            stmt.execute("DROP TABLE IF EXISTS Store");
+            stmt.execute("DROP TABLE IF EXISTS Review");
+            stmt.execute("DROP TABLE IF EXISTS SelectFood");
+            stmt.execute("DROP TABLE IF EXISTS Food");
             stmt.execute("CREATE TABLE IF NOT EXISTS Users (" +
                     "userId BIGINT PRIMARY KEY AUTO_INCREMENT, " +
                     "username VARCHAR(255) NOT NULL, " +

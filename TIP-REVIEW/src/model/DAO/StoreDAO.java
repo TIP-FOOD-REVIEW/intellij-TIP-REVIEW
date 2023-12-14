@@ -145,4 +145,17 @@ public class StoreDAO {
             return tempList.toArray(new Store[0]);
         }
     }
+
+    //updateStoreRationg and ReviewCount
+    public void updateStoreRatingAndReviewCount(Long storeId, Double rating) throws SQLException {
+        Connection conn = dbConnection.getConnection();
+        String sql = "UPDATE STORE SET RATING = ?, REVIEWCOUNT = REVIEWCOUNT + 1 WHERE STOREID = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        try(conn; pstmt) {
+            pstmt.setDouble(1, rating);
+            pstmt.setLong(2, storeId);
+            pstmt.executeUpdate();
+        }
+    }
 }
