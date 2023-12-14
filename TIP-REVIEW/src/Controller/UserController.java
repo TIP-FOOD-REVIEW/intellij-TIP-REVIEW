@@ -68,7 +68,7 @@ public class UserController extends HttpServlet {
             request.setAttribute("resultMessage", resultMessage);
         }
 
-        request.getRequestDispatcher("/home").forward(request, response);
+        response.sendRedirect("/home");
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

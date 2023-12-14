@@ -57,23 +57,29 @@ public class FoodDAO {
         }
     }
 
-    //searchFood (by name)
-    public Food searchFood(String name) throws SQLException {
+    // searchFood (by name and storeId)
+    public Food[] searchFood(String name, Long storeId) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM FOOD WHERE FOODNAME LIKE ?";
+        String sql = "SELECT * FROM FOOD WHERE FOODNAME LIKE ? AND STOREID = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         pstmt.setString(1, "%" + name + "%");
-        ResultSet rs = pstmt.executeQuery();
-        rs.next();
+        pstmt.setLong(2, storeId);
 
-        Food food = new Food();
-        try(conn; pstmt; rs) {
-            food.setFoodId(rs.getLong("foodId"));
-            food.setFoodName(rs.getString("foodName"));
-            food.setPrice(rs.getLong("price"));
-            pstmt.executeQuery();
-            return food;
+        ResultSet rs = pstmt.executeQuery();
+
+        ArrayList<Food> foodList = new ArrayList<>();
+
+        try (conn; pstmt; rs) {
+            while (rs.next()) {
+                Food food = new Food();
+                food.setFoodId(rs.getLong("foodId"));
+                food.setFoodName(rs.getString("foodName"));
+                food.setPrice(rs.getLong("price"));
+                foodList.add(food);
+            }
+            return foodList.toArray(new Food[0]);
         }
     }
+
 }
