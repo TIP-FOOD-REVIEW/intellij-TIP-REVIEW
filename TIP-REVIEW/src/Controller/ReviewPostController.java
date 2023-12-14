@@ -12,11 +12,10 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/reviewController")
-@MultipartConfig(maxFileSize = 1024*1024*2, location="/Users/sangwon/Desktop/tip-food/intellij-TIP-REVIEW/TIP-REVIEW/web/images")
+@MultipartConfig(maxFileSize = 1024*1024*10, location = "C:/Users/marty/TIP-REVIEW/TIP-REVIEW/web/images")
 public class ReviewPostController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -75,13 +74,29 @@ public class ReviewPostController extends HttpServlet {
         Long userId = (Long) session.getAttribute("userId");
         System.out.println( "userId = " + userId);
 
-        Long storeId = Long.valueOf(request.getParameter("storeId"));
+        Long storeId = null;
+        String storeIdParam = request.getParameter("storeId");
+        if (storeIdParam != null && !storeIdParam.isEmpty()) {
+            try {
+                storeId = Long.parseLong(storeIdParam);
+            } catch (NumberFormatException e) {
+                e.printStackTrace(); // 또는 로깅 등의 적절한 처리
+            }
+        }
         System.out.println("storeId = " + storeId);
 
         String reviewContent = request.getParameter("reviewContent");
         System.out.println("reviewContent = " + reviewContent);
 
-        Integer rating = Integer.parseInt(request.getParameter("rating"));
+        Integer rating = null;
+        String ratingParam = request.getParameter("rating");
+        if (ratingParam != null && !ratingParam.isEmpty()) {
+            try {
+                rating = Integer.parseInt(ratingParam);
+            } catch (NumberFormatException e) {
+                e.printStackTrace(); // 또는 로깅 등의 적절한 처리
+            }
+        }
         System.out.println("rating = " + rating);
 
 
@@ -112,33 +127,6 @@ public class ReviewPostController extends HttpServlet {
         reviewDAO.addReview(review);
         //redirect
         response.sendRedirect("/storeDetail?action=getReviewList&storeId=" + storeId);
-
-// This will be an array of food IDs that were checked
-
-
-//        Long storeId = Long.valueOf(request.getParameter("storeId"));
-//        Store store = storeDAO.getStore(storeId);
-//
-//        //session에서 userId 받아오기
-//        HttpSession session = request.getSession();
-//        Long userId = (Long) session.getAttribute("userId");
-//
-//        String content = request.getParameter("content");
-//        String ratingParam = request.getParameter("rating");
-//        Integer rating = (ratingParam != null) ? Integer.valueOf(ratingParam) : 0; // 또는 다른 디폴트 값
-//        Review review = new Review();
-//        review.setContent(content);
-//        review.setRating(rating);
-//        review.setStoreId(storeId);
-//        review.setUserId(userId);
-//        //이미지 주소 받아오는 부분으로 교체 필요
-//        review.setImage("12345");
-//        reviewDAO.addReview(review);
-//
-//        String[] selectFoodList = request.getParameterValues("selectFoodList");
-////        for (String selectFood : selectFoodList) {
-////            //selectFoodDAO.addSelectFoodList(userId, storeId, selectFood);
-////        }
     }
     private String getFilename(Part part) {
         String fileName = null;
@@ -151,9 +139,12 @@ public class ReviewPostController extends HttpServlet {
             if (start != -1) {
                 fileName = header.substring(start + 10, header.length() - 1);
 
+                // Remove underscores from the file name
+                fileName = fileName.replace("_", "");
             }
         }
 
         return fileName;
     }
+
 }
