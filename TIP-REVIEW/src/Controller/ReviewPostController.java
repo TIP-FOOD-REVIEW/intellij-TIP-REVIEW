@@ -1,20 +1,15 @@
 package Controller;
 
 import h2.DBConnection;
-import model.DAO.ReviewDAO;
-import model.DAO.SelectFoodDAO;
-import model.DAO.StoreDAO;
-import model.DAO.UserDAO;
+import model.DAO.*;
+import model.Entitiy.Food;
 import model.Entitiy.Review;
 import model.Entitiy.Store;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -26,6 +21,7 @@ public class ReviewPostController extends HttpServlet {
     private StoreDAO storeDAO;
     private ReviewDAO reviewDAO;
     private UserDAO userDAO;
+    private FoodDAO foodDAO;
     private SelectFoodDAO selectFoodDAO;
 
     private final String ReviewPostPage = "/reviewPost.jsp";
@@ -35,6 +31,7 @@ public class ReviewPostController extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
         this.storeDAO = new StoreDAO(dbConnection);
         this.reviewDAO = new ReviewDAO(dbConnection);
+        this.foodDAO = new FoodDAO(dbConnection);
         this.userDAO = new UserDAO(dbConnection);
         this.selectFoodDAO = new SelectFoodDAO(dbConnection);
     }
@@ -43,65 +40,76 @@ public class ReviewPostController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String storeId = request.getParameter("storeId");
         String action = request.getParameter("action");
-
-        if (request.getMethod().equalsIgnoreCase("GET")) {
-            doGet(request, response);
-        } else if (request.getMethod().equalsIgnoreCase("POST")) {
-            doPost(request, response);
+        try {
+            if(action.equals("setReview")) {
+                setReview(request, response);
+            }else if(action.equals("postReview")) {
+                postReview(request, response);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String action = request.getParameter("action");
-        try {
-            Method method = getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String action = request.getParameter("action");
-        try {
-            Method method = getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    //setReview
+    public void setReview(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        Long storeId = Long.valueOf(request.getParameter("storeId"));
+        Store store = storeDAO.getStore(storeId);
+
+        Food[] foodList = foodDAO.getFoodList(storeId);
+        request.setAttribute("foodList", foodList);
+
+        request.setAttribute("store", store);
+        request.getRequestDispatcher(ReviewPostPage).forward(request, response);
     }
 
     //addSelectFoodList
     public void postReview(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
-        // 이거도 교체 필요
-        Long storeId = 1L;
+        Long userId = Long.valueOf(request.getParameter("userId"));
+        Long storeId = Long.valueOf(request.getParameter("storeId"));
+        String reviewContent = request.getParameter("reviewContent");
+        Integer rating = Integer.parseInt(request.getParameter("rating"));
 
-        //session에서 userId 받아오기
-        HttpSession session = request.getSession();
-        Long userId = (Long) session.getAttribute("userId");
+        Part imageFilePart = request.getPart("imageFile");
 
-        String content = request.getParameter("content");
-        String ratingParam = request.getParameter("rating");
-        Integer rating = (ratingParam != null) ? Integer.valueOf(ratingParam) : 0; // 또는 다른 디폴트 값
-        Review review = new Review();
-        review.setContent(content);
-        review.setRating(rating);
-        review.setStoreId(storeId);
-        review.setUserId(userId);
-        //이미지 주소 받아오는 부분으로 교체 필요
-        review.setImage("12345");
-        reviewDAO.addReview(review);
+        String[] selectedFoods = request.getParameterValues("selectedFoods");
 
-        String[] selectFoodList = request.getParameterValues("selectFoodList");
-//        for (String selectFood : selectFoodList) {
-//            //selectFoodDAO.addSelectFoodList(userId, storeId, selectFood);
-//        }
+
+        System.out.println("userId = " + userId);
+        System.out.println("storeId = " + storeId);
+        System.out.println("reviewContent = " + reviewContent);
+        System.out.println("rating = " + rating);
+        System.out.println("imageFilePart = " + imageFilePart);
+        System.out.println("selectedFoods = " + selectedFoods);
+// This will be an array of food IDs that were checked
+
+
+//        Long storeId = Long.valueOf(request.getParameter("storeId"));
+//        Store store = storeDAO.getStore(storeId);
+//
+//        //session에서 userId 받아오기
+//        HttpSession session = request.getSession();
+//        Long userId = (Long) session.getAttribute("userId");
+//
+//        String content = request.getParameter("content");
+//        String ratingParam = request.getParameter("rating");
+//        Integer rating = (ratingParam != null) ? Integer.valueOf(ratingParam) : 0; // 또는 다른 디폴트 값
+//        Review review = new Review();
+//        review.setContent(content);
+//        review.setRating(rating);
+//        review.setStoreId(storeId);
+//        review.setUserId(userId);
+//        //이미지 주소 받아오는 부분으로 교체 필요
+//        review.setImage("12345");
+//        reviewDAO.addReview(review);
+//
+//        String[] selectFoodList = request.getParameterValues("selectFoodList");
+////        for (String selectFood : selectFoodList) {
+////            //selectFoodDAO.addSelectFoodList(userId, storeId, selectFood);
+////        }
     }
 }

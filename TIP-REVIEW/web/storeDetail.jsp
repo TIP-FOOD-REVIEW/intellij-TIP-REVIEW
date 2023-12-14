@@ -30,8 +30,8 @@
             <%= store.getStoreName() %>
         </h1>
         <div>
-            <% Long storeId = (Long) request.getAttribute("storeId"); %>
-            <button class="border rounded-full px-4 py-1 hover:bg-gray-200" onclick="location.href='/reviewController?action=GET&storeId=<%=storeId%>';">리뷰 작성하기</button>
+            <% Long storeId = store.getStoreId(); %>
+            <button class="border rounded-full px-4 py-1 hover:bg-gray-200" onclick="location.href='/reviewController?action=setReview&storeId=<%=storeId%>';">리뷰 작성하기</button>
         </div>
     </div>
 
