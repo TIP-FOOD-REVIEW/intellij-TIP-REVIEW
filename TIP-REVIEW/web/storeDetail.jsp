@@ -154,6 +154,7 @@
                             for(String food : foodLists) {
                     %>
                     <div style="display:flex; justify-content: flex-end;"><%= food %></div>
+
                     <%
                             }
                         }
