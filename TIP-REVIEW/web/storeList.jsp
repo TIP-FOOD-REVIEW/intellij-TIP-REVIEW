@@ -1,5 +1,6 @@
 <%@ page import="model.Entitiy.Store" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -68,7 +69,10 @@
                     <div class="text-right">
                         <div class="flex items-center mb-1">
                             <span class="rating-star">⭐️</span>
-                            <span class="ml-1 font-semibold"><%= store.getRating() %></span>
+                            <% double rating = store.getRating();
+                                DecimalFormat df = new DecimalFormat("#.#"); // 한 자리까지 포맷팅
+                                String formattedRating = df.format(rating); %>
+                            <span class="ml-1 font-semibold"><%= formattedRating %></span>
                         </div>
                         <div class="text-sm text-gray-500">리뷰 <%= store.getReviewCount() %>개</div>
                     </div>
