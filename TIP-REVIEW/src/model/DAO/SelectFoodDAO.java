@@ -43,13 +43,22 @@ public class SelectFoodDAO {
     }
 
     //ListByStoreIdAndFoodId (return reviewId)
-    public Long[] listByStoreIdAndFoodId(Long storeId, Long foodId) throws SQLException {
+    public Long[] listByStoreIdAndFoodIds(Long storeId, Long[] foodIds) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM SELECTFOOD WHERE STOREID = ? AND FOODID = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
+        StringBuilder sql = new StringBuilder("SELECT * FROM SELECTFOOD WHERE STOREID = ? AND FOODID IN (");
+        for (int i = 0; i < foodIds.length; i++) {
+            sql.append("?");
+            if (i < foodIds.length - 1) {
+                sql.append(", ");
+            }
+        }
+        sql.append(")");
+        PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
         pstmt.setLong(1, storeId);
-        pstmt.setLong(2, foodId);
+        for (int i = 0; i < foodIds.length; i++) {
+            pstmt.setLong(i + 2, foodIds[i]);
+        }
         ResultSet rs = pstmt.executeQuery();
 
         ArrayList<Long> foodIdList = new ArrayList<>();
@@ -57,10 +66,10 @@ public class SelectFoodDAO {
             while(rs.next()) {
                 foodIdList.add(rs.getLong("reviewId"));
             }
-            pstmt.executeQuery();
             return foodIdList.toArray(new Long[0]);
         }
     }
+
 
     //ListByReviewId (return foodId)
     public Long[] listByReviewId(Long reviewId) throws SQLException {
