@@ -33,7 +33,7 @@
                         <div class="row justify-content-center">
                             <form class="container" action="/userController?action=login" method="post">
                                 <a href="/home" class="logo">
-                                    <h1 class="blind">Tip-Review</h1>
+                                    <h1 class="blind btn-dark" >Tip-Review</h1>
                                 </a>
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4"></p>
                                 <!-- Email input -->
@@ -50,7 +50,7 @@
 
 
                                 <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>
+                                <button type="submit" class="btn btn-primary btn-block mb-4 btn-dark ">로그인</button>
 
                                 <!-- Register buttons -->
                                 <div class="text-center">
