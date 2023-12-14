@@ -8,6 +8,7 @@ import model.Entitiy.Store;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/reviewController")
+@MultipartConfig(maxFileSize = 1024*1024*2, location="/Users/sangwon/Desktop/tip-food/intellij-TIP-REVIEW/TIP-REVIEW/web/images")
 public class ReviewPostController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -69,22 +71,48 @@ public class ReviewPostController extends HttpServlet {
     public void postReview(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
-        Long userId = Long.valueOf(request.getParameter("userId"));
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        System.out.println( "userId = " + userId);
+
         Long storeId = Long.valueOf(request.getParameter("storeId"));
+        System.out.println("storeId = " + storeId);
+
         String reviewContent = request.getParameter("reviewContent");
+        System.out.println("reviewContent = " + reviewContent);
+
         Integer rating = Integer.parseInt(request.getParameter("rating"));
+        System.out.println("rating = " + rating);
+
+
 
         Part imageFilePart = request.getPart("imageFile");
+        String fileName = getFilename(imageFilePart);
+        if(fileName != null && !fileName.isEmpty()) {
+            imageFilePart.write(fileName);
+        }
 
         String[] selectedFoods = request.getParameterValues("selectedFoods");
 
 
         System.out.println("userId = " + userId);
-        System.out.println("storeId = " + storeId);
+        //System.out.println("storeId = " + storeId);
         System.out.println("reviewContent = " + reviewContent);
         System.out.println("rating = " + rating);
         System.out.println("imageFilePart = " + imageFilePart);
         System.out.println("selectedFoods = " + selectedFoods);
+
+        Review review = new Review();
+        review.setUserId(userId);
+        review.setStoreId(storeId);
+        review.setRating(rating);
+        review.setContent(reviewContent);
+        review.setImage(fileName);
+
+        reviewDAO.addReview(review);
+        //redirect
+        response.sendRedirect("/storeDetail?action=getReviewList&storeId=" + storeId);
+
 // This will be an array of food IDs that were checked
 
 
@@ -111,5 +139,21 @@ public class ReviewPostController extends HttpServlet {
 ////        for (String selectFood : selectFoodList) {
 ////            //selectFoodDAO.addSelectFoodList(userId, storeId, selectFood);
 ////        }
+    }
+    private String getFilename(Part part) {
+        String fileName = null;
+
+        // Check if the "content-disposition" header is present
+        String header = part.getHeader("content-disposition");
+        if (header != null) {
+            System.out.println("Header => " + header);
+            int start = header.indexOf("filename=");
+            if (start != -1) {
+                fileName = header.substring(start + 10, header.length() - 1);
+
+            }
+        }
+
+        return fileName;
     }
 }

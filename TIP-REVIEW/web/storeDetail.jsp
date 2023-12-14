@@ -152,7 +152,7 @@
                         if(foodList != null){
                             for(Food food : foodList) {
                     %>
-                    <!--<div style="display:flex; justify-content: flex-end;"><%= food.getFoodName() %></div>-->
+                    <div style="display:flex; justify-content: flex-end;"><%= food.getFoodName() %></div>
                     <%
                             }
                         }
