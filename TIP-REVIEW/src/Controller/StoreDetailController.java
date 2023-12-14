@@ -143,20 +143,32 @@ public class StoreDetailController extends HttpServlet {
         request.setAttribute("foodList", foodList);
         String foodname = request.getParameter("name");
         if(foodname == null) {
-            foodname = "";
-        }
-        Long[] foodIdList = Arrays.stream(foodDAO.searchFood(foodname, storeId)).map(Food::getFoodId).toArray(Long[]::new);
-        Long[] reviewIdList = selectFoodDAO.listByStoreIdAndFoodIds(storeId, foodIdList);
-        Review[] reviewList = reviewDAO.listByListReviewId(reviewIdList);
-        request.setAttribute("reviewList", reviewList);
-        for(int i = 0; i < reviewList.length; i++) {
-            request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
-            Long[] foodIdList1 = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
-            ArrayList<String> foodnames = new ArrayList<>();
-            for(int j = 0; j < foodIdList1.length; j++) {
-                foodnames.add(foodDAO.getFood(foodIdList1[j]).getFoodName());
+            Review[] reviewList = reviewDAO.listReviews(storeId);
+            request.setAttribute("reviewList", reviewList);
+            //reviewList 출력
+            for(int i = 0; i < reviewList.length; i++) {
+                request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
+                Long[] foodIdList = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
+                ArrayList<String> foodnames = new ArrayList<>();
+                for(int j = 0; j < foodIdList.length; j++) {
+                    foodnames.add(foodDAO.getFood(foodIdList[j]).getFoodName());
+                }
+                request.setAttribute("food_" + reviewList[i].getReviewId(), foodnames);
             }
-            request.setAttribute("food_" + reviewList[i].getReviewId(), foodnames);
+        }else{
+            Long[] foodIdList = Arrays.stream(foodDAO.searchFood(foodname, storeId)).map(Food::getFoodId).toArray(Long[]::new);
+            Long[] reviewIdList = selectFoodDAO.listByStoreIdAndFoodIds(storeId, foodIdList);
+            Review[] reviewList = reviewDAO.listByListReviewId(reviewIdList);
+            request.setAttribute("reviewList", reviewList);
+            for (int i = 0; i < reviewList.length; i++) {
+                request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
+                Long[] foodIdList1 = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
+                ArrayList<String> foodnames = new ArrayList<>();
+                for (int j = 0; j < foodIdList1.length; j++) {
+                    foodnames.add(foodDAO.getFood(foodIdList1[j]).getFoodName());
+                }
+                request.setAttribute("food_" + reviewList[i].getReviewId(), foodnames);
+            }
         }
         request.getRequestDispatcher(storeDetailPage).forward(request, response);
     }
