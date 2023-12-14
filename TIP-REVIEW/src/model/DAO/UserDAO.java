@@ -40,8 +40,12 @@ public class UserDAO {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            return pstmt.getResultSet().getLong("userId");
+
+            if (rs.next()) {
+                return rs.getLong("userId");
+            } else {
+                return null; // 데이터가 없을 경우 null 반환
+            }
         }
     }
 
