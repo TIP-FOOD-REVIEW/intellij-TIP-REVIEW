@@ -61,13 +61,5 @@ public class Review {
         this.image = image;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    private Timestamp createdAt;
 }

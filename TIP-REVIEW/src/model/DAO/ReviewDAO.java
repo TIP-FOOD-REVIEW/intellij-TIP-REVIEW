@@ -19,7 +19,7 @@ public class ReviewDAO {
     //addReview
     public void addReview(Review review) throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "INSERT INTO REVIEW (USERID, STOREID, CONTENT, RATING, IMAGE) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO REVIEW (USERID, STOREID, CONTENT, RATING, IMAGEURL) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         try(conn; pstmt) {

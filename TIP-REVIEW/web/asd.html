@@ -1,0 +1,19 @@
+<form action="/reviewController?action=postReview" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="userId" value="<%= userId %>">
+  <input type="hidden" name="storeId" value="<%= storeId %>">
+
+  <!-- Image file input -->
+  <input name="imageFile" type="file" accept="image/*">
+
+  <!-- Review content textarea -->
+  <textarea name="reviewContent" rows="4"></textarea>
+
+  <!-- Star rating (hidden input to store the rating) -->
+  <input type="hidden" id="ratingField" name="rating">
+
+  <!-- Food selection (checkboxes within the modal) -->
+  <!-- Assuming modal has checkboxes with name 'selectedFoods' -->
+
+  <!-- Submit button -->
+  <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">리뷰 저장 버튼</button>
+</form>
