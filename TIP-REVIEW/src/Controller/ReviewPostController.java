@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/reviewController")
-@MultipartConfig(maxFileSize = 1024*1024*10, location = "C:/Users/marty/TIP-REVIEW/TIP-REVIEW/web/images")
+@MultipartConfig(maxFileSize = 1024*1024*10, location="C:/Users/신혁준/eclipse-workspace/intellij-TIP-REVIEW/TIP-REVIEW/web/images")
 public class ReviewPostController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
