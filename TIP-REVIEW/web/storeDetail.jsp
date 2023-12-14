@@ -119,8 +119,8 @@
             <h2 class="text-xl font-semibold">리뷰 목록</h2>
             <div>
                 <!-- 별점 순 정렬 버튼 -->
-                <a href="storeDetail?action=getReviewListByRatingDESC&storeId=<%=storeId%>" class="text-sm px-2">낮은 별점 순</a>
-                <a href="storeDetail?action=getReviewListByRatingASC&storeId=<%=storeId%>" class="text-sm px-2">높은 별점 순</a>
+                <a href="storeDetail?action=getReviewListByRatingDESC&storeId=<%=storeId%>" class="text-sm px-2">높은 별점 순</a>
+                <a href="storeDetail?action=getReviewListByRatingASC&storeId=<%=storeId%>" class="text-sm px-2">낮은 별점 순</a>
                 <a href="storeDetail?action=getReviewList&storeId=<%=storeId%>" class="text-sm px-2">최신 순</a>
                 <!-- 추가적인 정렬 옵션 가능 -->
             </div>
@@ -152,7 +152,7 @@
                         if(foodList != null){
                             for(Food food : foodList) {
                     %>
-                    <div style="display:flex; justify-content: flex-end;"><%= food.getFoodName() %></div>
+                    <!--<div style="display:flex; justify-content: flex-end;"><%= food.getFoodName() %></div>-->
                     <%
                             }
                         }
