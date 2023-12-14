@@ -4,6 +4,7 @@ import h2.DBConnection;
 import model.DAO.*;
 import model.Entitiy.Food;
 import model.Entitiy.Review;
+import model.Entitiy.SelectFood;
 import model.Entitiy.Store;
 
 import javax.servlet.ServletConfig;
@@ -98,7 +99,9 @@ public class ReviewPostController extends HttpServlet {
             }
         }
         System.out.println("rating = " + rating);
-
+        if(rating == null) {
+            rating = 3;
+        }
 
 
         Part imageFilePart = request.getPart("imageFile");
@@ -111,11 +114,9 @@ public class ReviewPostController extends HttpServlet {
 
 
         System.out.println("userId = " + userId);
-        //System.out.println("storeId = " + storeId);
         System.out.println("reviewContent = " + reviewContent);
         System.out.println("rating = " + rating);
         System.out.println("imageFilePart = " + imageFilePart);
-        System.out.println("selectedFoods = " + selectedFoods);
 
         Review review = new Review();
         review.setUserId(userId);
@@ -124,7 +125,12 @@ public class ReviewPostController extends HttpServlet {
         review.setContent(reviewContent);
         review.setImage(fileName);
 
-        reviewDAO.addReview(review);
+        Long reviewId = reviewDAO.addReview(review);
+
+        for(String food : selectedFoods) {
+            System.out.println("food = " + food);
+            selectFoodDAO.addSelectFoodList(reviewId, storeId, Long.parseLong(food));
+        }
         //redirect
         response.sendRedirect("/storeDetail?action=getReviewList&storeId=" + storeId);
     }

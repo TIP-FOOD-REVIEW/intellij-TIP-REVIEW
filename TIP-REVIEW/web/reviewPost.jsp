@@ -31,6 +31,7 @@
         response.sendRedirect("/User/loginForm.jsp");
     }
     Long storeId = Long.valueOf(request.getParameter("storeId"));
+    ArrayList<Long> selectedFoods = new ArrayList<>();
 %>
 <form action="/reviewController?action=postReview" method="post" enctype="multipart/form-data">
     <input type="hidden" name="userId" value="<%= userId %>">
