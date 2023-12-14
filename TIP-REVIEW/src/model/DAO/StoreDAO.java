@@ -35,6 +35,7 @@ public class StoreDAO {
                 store.setDescription(rs.getString("description"));
                 store.setLocation(rs.getString("location"));
                 store.setRating(rs.getDouble("rating"));
+                store.setReviewCount(rs.getLong("reviewCount"));
             }
             pstmt.executeQuery();
             return store;
@@ -57,6 +58,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setRating(rs.getDouble("rating"));
+                store.setReviewCount(rs.getLong("reviewCount"));
                 tempList.add(store);
             }
         }
@@ -83,6 +85,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setRating(rs.getDouble("rating"));
+                store.setReviewCount(rs.getLong("reviewCount"));
                 tempList.add(store);
             }
             pstmt.executeQuery();
@@ -93,7 +96,7 @@ public class StoreDAO {
     //ListByReviewCount
     public Store[] listByReviewCount() throws SQLException {
         Connection conn = dbConnection.getConnection();
-        String sql = "SELECT * FROM STORE ORDER BY REVIEW_COUNT DESC";
+        String sql = "SELECT * FROM STORE ORDER BY REVIEWCOUNT DESC";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         ResultSet rs = pstmt.executeQuery();
@@ -108,6 +111,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setRating(rs.getDouble("rating"));
+                store.setReviewCount(rs.getLong("reviewCount"));
                 tempList.add(store);
             }
             pstmt.executeQuery();
@@ -134,6 +138,7 @@ public class StoreDAO {
                 store.setAddress(rs.getString("address"));
                 store.setPhone(rs.getString("phone"));
                 store.setRating(rs.getDouble("rating"));
+                store.setReviewCount(rs.getLong("reviewCount"));
                 tempList.add(store);
             }
             pstmt.executeQuery();

@@ -32,7 +32,7 @@
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center">
                             <form class="container" method="post" action="/userController?action=addUser">
-                                <a href="/storeList.jsp" class="logo">
+                                <a href="/home" class="logo">
                                     <h1 class="blind">회원가입</h1>
                                 </a>
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4"></p>
@@ -75,7 +75,7 @@
 
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block mb-4">회원가입</button>
-                                <a href="/storeList.jsp" class="btn btn-secondary btn-block">메인으로</a>
+                                <a href="/home" class="btn btn-secondary btn-block">메인으로</a>
 
 
 

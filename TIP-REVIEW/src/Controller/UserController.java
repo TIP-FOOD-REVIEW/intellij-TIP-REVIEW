@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/userController")
 public class UserController extends HttpServlet {
@@ -26,44 +27,21 @@ public class UserController extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
         this.userDAO = new UserDAO(dbConnection);
     }
+
     //service
-    @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-
-        // 요청의 HTTP 메서드에 따라 doGet 또는 doPost 호출
-        if (request.getMethod().equalsIgnoreCase("GET")) {
-            doGet(request, response);
-        } else if (request.getMethod().equalsIgnoreCase("POST")) {
-            doPost(request, response);
-        }
-    }
-
-    //doGet
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-        try {
-            Method method = getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    //doPost
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String action = request.getParameter("action");
-        try {
-            Method method = getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(action.equals("addUser")) {
+            addUser(request, response);
+        }else if(action.equals("login")) {
+            login(request, response);
+        }else if(action.equals("logout")) {
+            logout(request, response);
         }
+
     }
 
     private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,8 +68,7 @@ public class UserController extends HttpServlet {
             request.setAttribute("resultMessage", resultMessage);
         }
 
-        //request.getRequestDispatcher("/result.jsp").forward(request, response);
-        request.getRequestDispatcher("/storeList.jsp").forward(request, response);
+        request.getRequestDispatcher("/home").forward(request, response);
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -104,16 +81,14 @@ public class UserController extends HttpServlet {
             if (userId != null) {
 
                 String resultMessage = "Login successful. User.java ID: " + userId;
+                System.out.println("resultMessage = " + resultMessage);
                 request.setAttribute("resultMessage", resultMessage);
-
 
                 // 세션 생성
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", userId);
                 session.setAttribute("username", username); //메인에 보여줌
 
-                //성공 시 메인페이지로 이동
-                request.getRequestDispatcher("/storeList.jsp").forward(request, response);
             } else {
                 String resultMessage = "Login failed. Invalid credentials.";
                 request.setAttribute("resultMessage", resultMessage);
@@ -125,8 +100,7 @@ public class UserController extends HttpServlet {
             String resultMessage = "Login failed. An error occurred.";
             request.setAttribute("resultMessage", resultMessage);
         }
-
-        //request.getRequestDispatcher("/result.jsp").forward(request, response);
+        response.sendRedirect("/home");
     }
 
     // 세션 삭제 메서드
@@ -139,7 +113,7 @@ public class UserController extends HttpServlet {
         }
 
         // 원하는 페이지로 리다이렉트할 수 있습니다.
-        response.sendRedirect("/storeList.jsp");
+        response.sendRedirect("/home");
     }
 
 }
