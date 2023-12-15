@@ -128,11 +128,8 @@
         <div class="grid grid-cols-2 gap-4">
             <%
                 Review[] reviewList = (Review[]) request.getAttribute("reviewList");
-                List<Review> reviewArrayList = Arrays.asList(reviewList);
-                Set<Review> uniqueReviews = new HashSet<>(reviewArrayList);
-                Review[] uniqueReviewArray = uniqueReviews.toArray(new Review[0]);
                 if(reviewList != null) {
-                    for(Review review : uniqueReviewArray) {
+                    for(Review review : reviewList) {
                         User user = (User) request.getAttribute("user_" + review.getReviewId());
                         // 리뷰 렌더링
                         String ImgUrl = review.getImage();
