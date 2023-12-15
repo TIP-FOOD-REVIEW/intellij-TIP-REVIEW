@@ -105,27 +105,19 @@ public class DataSetServlet extends HttpServlet {
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
                     "VALUES (8,  9 , 2)");
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (6,  10 , 2)");
+                    "VALUES (9,  10 , 3)");
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
                     "VALUES (9,  11 , 3)");
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
                     "VALUES (9,  12 , 3)");
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (9,  13 , 3)");
+                    "VALUES (10,  13 , 4)");
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (9,  14 , 3)");
+                    "VALUES (10,  14 , 4)");
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (10,  15 , 4)");
+                    "VALUES (11,  15 , 5)");
             stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (10,  16 , 4)");
-            stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (10,  17 , 4)");
-            stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (11,  18 , 5)");
-            stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (11,  19 , 5)");
-            stmt.execute("INSERT INTO SelectFood (foodId, reviewId, storeId) " +
-                    "VALUES (12,  20 , 6)");
+                    "VALUES (12,  15 , 6)");
             //User 데이터 삽입
             stmt.execute("INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, PHONE) " +
                     "VALUES ('홍길동', '123', 'aaa@tukorea.ac.kr', '010-1234-1234')");
