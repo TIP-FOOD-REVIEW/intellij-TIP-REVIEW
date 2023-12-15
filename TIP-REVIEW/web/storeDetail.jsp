@@ -132,7 +132,7 @@
                 Set<Review> uniqueReviews = new HashSet<>(reviewArrayList);
                 Review[] uniqueReviewArray = uniqueReviews.toArray(new Review[0]);
                 if(reviewList != null) {
-                    for(Review review : reviewList) {
+                    for(Review review : uniqueReviewArray) {
                         User user = (User) request.getAttribute("user_" + review.getReviewId());
                         // 리뷰 렌더링
                         String ImgUrl = review.getImage();
