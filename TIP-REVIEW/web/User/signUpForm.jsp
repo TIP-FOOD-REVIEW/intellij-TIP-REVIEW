@@ -33,7 +33,7 @@
                         <div class="row justify-content-center">
                             <form class="container" method="post" action="/userController?action=addUser">
                                 <a href="/home" class="logo">
-                                    <h1 class="blind">회원가입</h1>
+                                    <h1 class="blind btn-dark">회원가입</h1>
                                 </a>
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4"></p>
 
@@ -74,7 +74,7 @@
                                 </div>
 
                                 <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary btn-block mb-4">회원가입</button>
+                                <button type="submit" class="btn blind btn-dark btn-primary btn-block mb-4" style="margin-top: 20px">회원가입</button>
                                 <a href="/home" class="btn btn-secondary btn-block">메인으로</a>
 
 
