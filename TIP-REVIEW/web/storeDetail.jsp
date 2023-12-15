@@ -1,8 +1,8 @@
 <%@ page import="model.Entitiy.Store" %>
 <%@ page import="model.Entitiy.Review" %>
 <%@ page import="model.Entitiy.User" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="model.Entitiy.Food" %>
+<%@ page import="java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,6 +128,9 @@
         <div class="grid grid-cols-2 gap-4">
             <%
                 Review[] reviewList = (Review[]) request.getAttribute("reviewList");
+                List<Review> reviewArrayList = Arrays.asList(reviewList);
+                Set<Review> uniqueReviews = new HashSet<>(reviewArrayList);
+                Review[] uniqueReviewArray = uniqueReviews.toArray(new Review[0]);
                 if(reviewList != null) {
                     for(Review review : reviewList) {
                         User user = (User) request.getAttribute("user_" + review.getReviewId());
