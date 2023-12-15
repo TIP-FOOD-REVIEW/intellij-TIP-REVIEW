@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 @WebServlet(urlPatterns = "/storeDetail")
 public class StoreDetailController extends HttpServlet {
@@ -159,15 +158,18 @@ public class StoreDetailController extends HttpServlet {
             Long[] foodIdList = Arrays.stream(foodDAO.searchFood(foodname, storeId)).map(Food::getFoodId).toArray(Long[]::new);
             Long[] reviewIdList = selectFoodDAO.listByStoreIdAndFoodIds(storeId, foodIdList);
             Review[] reviewList = reviewDAO.listByListReviewId(reviewIdList);
-            request.setAttribute("reviewList", reviewList);
-            for (int i = 0; i < reviewList.length; i++) {
-                request.setAttribute("user_" + reviewList[i].getReviewId(), userDAO.getUser(reviewList[i].getUserId()));
-                Long[] foodIdList1 = selectFoodDAO.listByReviewId(reviewList[i].getReviewId());
+            List<Review> reviewArrayList = Arrays.asList(reviewList);
+            Set<Review> uniqueReviews = new HashSet<>(reviewArrayList);
+            Review[] uniqueReviewArray = uniqueReviews.toArray(new Review[0]);
+            request.setAttribute("reviewList", uniqueReviewArray);
+            for (int i = 0; i < uniqueReviewArray.length; i++) {
+                request.setAttribute("user_" + uniqueReviewArray[i].getReviewId(), userDAO.getUser(uniqueReviewArray[i].getUserId()));
+                Long[] foodIdList1 = selectFoodDAO.listByReviewId(uniqueReviewArray[i].getReviewId());
                 ArrayList<String> foodnames = new ArrayList<>();
                 for (int j = 0; j < foodIdList1.length; j++) {
                     foodnames.add(foodDAO.getFood(foodIdList1[j]).getFoodName());
                 }
-                request.setAttribute("food_" + reviewList[i].getReviewId(), foodnames);
+                request.setAttribute("food_" + uniqueReviewArray[i].getReviewId(), foodnames);
             }
         }
         request.getRequestDispatcher(storeDetailPage).forward(request, response);

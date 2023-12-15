@@ -2,6 +2,7 @@ package model.Entitiy;
 
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Review {
     private Long reviewId;
@@ -61,5 +62,18 @@ public class Review {
         this.image = image;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return reviewId == review.reviewId;
+        // Add other fields if needed
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(reviewId);
+        // Add other fields if needed
+    }
 }
