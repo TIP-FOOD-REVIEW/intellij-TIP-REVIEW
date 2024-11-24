@@ -157,4 +157,9 @@ public class ReviewPostController extends HttpServlet {
         return fileName;
     }
 
+
+    //랜덤 정수 반환
+    public int getRandomInt(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
 }
